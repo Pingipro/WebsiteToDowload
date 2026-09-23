@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pinguva – die KI-Assistenz, die in Ihrer Firma bleibt</title>
+<meta name="description" content="Pinguva geht für Ihre Firma ans Telefon, versteht Schweizerdeutsch, vergibt Termine und bereitet E-Mails vor. Die KI läuft lokal auf Ihrem eigenen Rechner.">
+<meta name="theme-color" content="#3D50E8">
+<script>document.documentElement.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim");</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='21' r='17' fill='%233D50E8'/%3E%3Cellipse cx='20' cy='21' rx='11' ry='8.5' fill='%23fff'/%3E%3Ccircle cx='16' cy='20' r='2' fill='%2316204A'/%3E%3Ccircle cx='24' cy='20' r='2' fill='%2316204A'/%3E%3Cpath d='M18 24q2-1.2 4 0q-2 3.2-4 0z' fill='%23FF9A3C'/%3E%3Cpath d='M6 20a14 14 0 0 1 28 0' fill='none' stroke='%2322C29A' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<!--
+  Schriften: bewusst Systemschriften, keine Google Fonts.
+  Grund: schneller, und es geht beim Seitenaufruf keine Besucher-IP an Dritte (DSG).
+-->
+<style>
+:root{
+  --ink:#16204A;        /* Tiefsee – Text */
+  --ink-2:#4A5478;      /* Nebentext */
+  --ink-3:#7A83A6;
+  --bg:#F6F8FE;         /* Eisluft */
+  --surface:#FFFFFF;
+  --ice:#E6EDFF;        /* Eisscholle */
+  --ice-2:#D3DEFF;
+  --accent:#3D50E8;     /* Gletscher-Indigo, wie in der App */
+  --accent-hover:#3242CE;
+  --accent-press:#2A37AE;
+  --deep:#1D2A8F;       /* dunkles Band */
+  --beak:#FF9A3C;       /* Schnabel */
+  --mint:#22C29A;       /* Headset, „erledigt" */
+  --alarm:#E5484D;
+  --line:#E1E6F5;
+
+  --r-s:8px; --r-m:14px; --r-l:22px; --r-xl:32px;
+  --shadow-1:0 1px 2px rgba(22,32,74,.06),0 2px 8px rgba(22,32,74,.05);
+  --shadow-2:0 2px 6px rgba(22,32,74,.06),0 18px 40px -12px rgba(29,42,143,.25);
+
+  --f-head:ui-rounded,"SF Pro Rounded","Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI Variable Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --wrap:1160px;
+}
+*,*::before,*::after{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(76px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%;display:block}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--f-head);color:var(--ink);margin:0;letter-spacing:-.02em;line-height:1.08}
+h1{font-size:clamp(2.3rem,5vw,3.9rem);font-weight:800}
+h2{font-size:clamp(1.85rem,3.6vw,2.8rem);font-weight:800}
+h3{font-size:1.2rem;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+p{margin:0}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.lead{font-size:clamp(1.1rem,1.7vw,1.3rem);color:var(--ink-2);max-width:34em}
+.muted{color:var(--ink-2)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--surface);padding:10px 14px;border-radius:var(--r-s);z-index:99}
+.skip:focus{left:12px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* ---------- Knöpfe ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 1rem/1 var(--f-body);text-decoration:none;border:0;cursor:pointer;border-radius:var(--r-m);padding:16px 24px;transition:background-color .16s var(--ease-out),transform .12s var(--ease-out),box-shadow .2s var(--ease-out)}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 20px -8px rgba(61,80,232,.7)}
+.btn-primary:active{background:var(--accent-press)}
+.btn-ghost{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn-small{padding:11px 16px;font-size:.95rem;border-radius:12px}
+.btn[aria-disabled="true"]{background:var(--ice-2);color:var(--ink-2);box-shadow:none;cursor:not-allowed}
+.btn svg{width:20px;height:20px;flex:none}
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{background:var(--accent-hover)}
+  .btn-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ice-2);background:#FBFCFF}
+  .nav a.link:hover{color:var(--ink)}
+}
+
+/* ---------- Kopf ---------- */
+.top{position:sticky;top:0;z-index:50;background:rgba(246,248,254,.82);-webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
+.top.scrolled{border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font:800 1.35rem/1 var(--f-head);letter-spacing:-.02em;margin-right:auto}
+.brand svg{width:36px;height:36px}
+.nav a.link{color:var(--ink-2);text-decoration:none;font-weight:500;font-size:.98rem;transition:color .16s}
+@media (max-width:820px){.nav a.link{display:none}.nav{gap:12px}}
+
+/* ---------- Begrüssung ---------- */
+.hero{padding:clamp(40px,7vw,96px) 0 clamp(56px,8vw,110px);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);align-items:center}
+.hero h1{max-width:none;text-wrap:balance}
+.hero .lead{margin-top:22px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero-note{margin-top:14px;font-size:.95rem;color:var(--ink-3)}
+.hero-stage{position:relative;display:flex;justify-content:center;padding:10px 0 20px}
+.hero-stage::before{content:"";position:absolute;width:min(480px,92%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 45%,var(--ice-2),var(--ice) 55%,transparent 72%);top:50%;left:50%;transform:translate(-50%,-50%)}
+.mascot-hero{position:absolute;width:clamp(120px,12vw,165px);right:calc(50% - 146px - 150px);bottom:40px;z-index:3;filter:drop-shadow(0 14px 18px rgba(29,42,143,.22))}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero h1{max-width:none;text-wrap:balance}
+  .mascot-hero{right:calc(50% - 146px - 140px)}
+}
+@media (max-width:560px){.hero-stage{padding-bottom:104px}.mascot-hero{right:calc(50% - 150px);width:100px;bottom:-4px}}
+
+/* ---------- Telefon-Gerät ---------- */
+.phone{position:relative;z-index:2;width:292px;aspect-ratio:9/19.3;background:#1B2240;border-radius:46px;padding:11px;box-shadow:var(--shadow-2),inset 0 0 0 2px #2E3763}
+.phone::after{content:"";position:absolute;top:19px;left:50%;transform:translateX(-50%);width:84px;height:24px;border-radius:14px;background:#0E1330;z-index:3}
+.screen{height:100%;border-radius:36px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column;font-size:12.5px;line-height:1.4}
+.sb{display:flex;justify-content:space-between;padding:15px 24px 6px;font:600 11.5px/1 var(--f-body);color:var(--ink)}
+.appbar{display:flex;align-items:center;gap:8px;padding:12px 16px 10px;border-bottom:1px solid var(--line);background:var(--surface)}
+.appbar svg{width:22px;height:22px}
+.appbar b{font:700 14px/1.1 var(--f-head)}
+.appbar small{display:block;color:var(--ink-3);font-size:11px;margin-top:2px}
+.pill{margin-left:auto;font-size:10.5px;font-weight:600;padding:4px 8px;border-radius:99px;background:#E3F7F1;color:#0D7A5F;white-space:nowrap}
+.pill.wait{background:#FFF1E3;color:#A4540F}
+.scr-body{flex:1;padding:12px 12px 14px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.msg{max-width:88%;padding:8px 11px;border-radius:14px;background:var(--surface);box-shadow:var(--shadow-1)}
+.msg.caller{align-self:flex-start;border-bottom-left-radius:5px}
+.msg.pv{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:5px}
+.msg .tr{display:block;margin-top:5px;padding-top:5px;border-top:1px dashed var(--line);color:var(--ink-3);font-size:11px}
+.who{font-size:10.5px;color:var(--ink-3);margin:2px 4px -4px}
+.who.r{align-self:flex-end}
+.tag{align-self:flex-start;display:inline-flex;gap:6px;align-items:center;font-size:11px;font-weight:600;padding:5px 9px;border-radius:9px;background:#FFF1E3;color:#A4540F}
+.done{margin-top:auto;background:var(--surface);border-radius:14px;padding:10px 12px;box-shadow:var(--shadow-1);border-left:4px solid var(--mint)}
+.done b{font-size:12.5px}
+.done span{display:block;color:var(--ink-2);font-size:11.5px}
+.mail{background:var(--surface);border-radius:14px;padding:11px 12px;box-shadow:var(--shadow-1)}
+.mail .from{display:flex;justify-content:space-between;color:var(--ink-3);font-size:11px}
+.mail h4{margin:4px 0 4px;font:700 13px/1.25 var(--f-head)}
+.draft{background:#F1F4FF;border-radius:12px;padding:10px 11px;color:var(--ink)}
+.draft em{font-style:normal;display:block;font-size:10.5px;font-weight:600;color:var(--accent);margin-bottom:4px}
+.row-btns{display:flex;gap:6px;margin-top:auto}
+.row-btns span{flex:1;text-align:center;padding:9px 0;border-radius:11px;font-weight:600;font-size:12px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.row-btns span.go{background:var(--accent);color:#fff;box-shadow:none}
+.ask{align-self:flex-end;background:var(--ink);color:#fff;border-radius:14px 14px 5px 14px;padding:8px 11px;max-width:88%}
+.answer{background:var(--surface);border-radius:14px;padding:10px 12px;box-shadow:var(--shadow-1)}
+.answer sup{color:var(--accent);font-weight:700}
+.src{display:flex;gap:8px;align-items:flex-start;background:var(--surface);border-radius:12px;padding:8px 10px;box-shadow:inset 0 0 0 1px var(--line);font-size:11px;color:var(--ink-2)}
+.src b{color:var(--accent);font-size:11.5px}
+.nf{background:var(--surface);border-radius:12px;padding:9px 11px;font-size:11px;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line)}
+
+/* Einlauf im Begrüssungs-Telefon – der eine orchestrierte Moment */
+.seq{transition:opacity .4s var(--ease-out)}
+.seq.aus{opacity:0}
+.anim .seq.playing > *{opacity:0;transform:translateY(8px) scale(.98)}
+.anim .seq.playing > .in{opacity:1;transform:none;transition:opacity .3s var(--ease-out),transform .35s cubic-bezier(.34,1.4,.64,1)}
+.seq .typing{display:none}
+.anim .seq.playing .typing{display:inline-flex}
+.anim .seq.playing .typing.weg{display:none}
+.typing{align-self:flex-end;gap:4px;padding:11px 13px;background:var(--accent);border-radius:14px 14px 5px 14px}
+.typing i{width:6px;height:6px;border-radius:50%;background:#fff;opacity:.5;animation:tipp 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tipp{0%,60%,100%{transform:none;opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+
+/* ---------- Abschnitte ---------- */
+section{padding:clamp(64px,9vw,120px) 0}
+.sec-head{max-width:40rem}
+.sec-head p{margin-top:16px}
+
+/* Ablauf eines Anrufs (echte Reihenfolge → Nummern) */
+.flow{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s;position:relative}
+.flow::before{content:"";position:absolute;left:22px;right:calc(20% - 22px);top:21px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--mint))}
+.flow li{position:relative;padding:0 18px 0 0;counter-increment:s}
+.flow li::before{content:counter(s);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--surface);border:3px solid var(--accent);font:800 1.05rem/1 var(--f-head);color:var(--accent);position:relative;margin-bottom:18px}
+.flow li:last-child::before{border-color:var(--mint);color:#0D7A5F}
+.flow h3{margin-bottom:8px}
+.flow p{color:var(--ink-2);font-size:.98rem}
+.flow .alarm{display:inline-block;margin-top:8px;font-weight:700;color:var(--alarm)}
+@media (max-width:900px){
+  .flow{grid-template-columns:1fr;gap:26px}
+  .flow::before{left:21px;right:auto;top:22px;bottom:22px;width:3px;height:auto;background:linear-gradient(180deg,var(--accent),var(--mint))}
+  .flow li{padding:0 0 0 64px}
+  .flow li::before{position:absolute;left:0;top:-4px;margin:0}
+}
+
+/* Weitere Funktionen */
+.more{display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;margin-top:40px;border-top:1px solid var(--line)}
+.more div{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto 1fr;gap:4px 16px;align-items:start;padding:26px 0;border-bottom:1px solid var(--line)}
+.more .ico{grid-row:1/3}
+.more p{color:var(--ink-2);font-size:.98rem}
+@media (max-width:1000px){.more{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.more{grid-template-columns:1fr}}
+
+/* Bleibt in der Praxis */
+.local{background:var(--deep);color:#E6EBFF;border-radius:var(--r-xl);padding:clamp(36px,6vw,72px);position:relative;overflow:hidden}
+.local h2{color:#fff;max-width:18ch}
+.local .lead{color:#C4CDF7;margin-top:16px}
+.local-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:44px}
+.local-grid h3{color:#fff;margin-bottom:8px}
+.local-grid p{color:#C4CDF7;font-size:.98rem}
+.local-grid div{border-top:2px solid rgba(255,255,255,.18);padding-top:18px}
+@media (max-width:820px){.local-grid{grid-template-columns:1fr;gap:24px}}
+
+/* App-Vorschau */
+.preview{display:grid;grid-template-columns:1fr auto;gap:clamp(32px,6vw,90px);align-items:center;margin-top:44px}
+.tabs{display:flex;flex-direction:column;gap:6px;max-width:460px}
+.tab{all:unset;cursor:pointer;display:block;padding:18px 20px;border-radius:var(--r-l);transition:background-color .2s var(--ease-out)}
+.tab h3{color:var(--ink-3);transition:color .2s}
+.tab p{color:var(--ink-2);margin-top:6px;font-size:.98rem;display:none}
+.tab[aria-selected="true"]{background:var(--surface);box-shadow:var(--shadow-1)}
+.tab[aria-selected="true"] h3{color:var(--ink)}
+.tab[aria-selected="true"] p{display:block}
+.tab:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (hover:hover) and (pointer:fine){.tab[aria-selected="false"]:hover h3{color:var(--ink-2)}}
+.panel[hidden]{display:none}
+.panel .scr-body{animation:swap .26s var(--ease-out)}
+@keyframes swap{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.preview-note{margin-top:18px;font-size:.9rem;color:var(--ink-3)}
+@media (max-width:860px){.preview{grid-template-columns:1fr;justify-items:center}.tabs{width:100%}}
+
+/* Download */
+.dl{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,64px);align-items:center;background:var(--surface);border-radius:var(--r-xl);padding:clamp(32px,5vw,64px);box-shadow:var(--shadow-1)}
+.dl .mascot{width:clamp(150px,20vw,240px)}
+.dl h2{max-width:16ch}
+.dl .lead{margin-top:14px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 28px;padding:0;list-style:none}
+.facts li{background:var(--ice);color:var(--ink);font-size:.92rem;font-weight:500;padding:7px 12px;border-radius:10px}
+.dl-status{margin-top:14px;font-size:.95rem;color:var(--ink-2);max-width:36em}
+.dl-status strong{color:var(--ink)}
+@media (max-width:760px){.dl{grid-template-columns:1fr;justify-items:start}}
+
+/* Häufige Fragen */
+.faq{max-width:780px;margin:40px 0 0}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font:700 1.12rem/1.3 var(--f-head);letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:12px;height:12px;border-right:2.5px solid var(--ink-3);border-bottom:2.5px solid var(--ink-3);transform:rotate(45deg) translate(-3px,-3px);transition:transform .2s var(--ease-out)}
+.faq details[open] summary::after{transform:rotate(225deg) translate(-3px,-3px)}
+.faq .ans{padding:0 0 24px;color:var(--ink-2);max-width:40em}
+.faq details[open] .ans{animation:swap .24s var(--ease-out)}
+
+/* Fuss */
+footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
+.foot{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between}
+.foot nav{display:flex;flex-wrap:wrap;gap:8px 28px}
+.foot nav a{color:var(--ink-2);text-decoration:none}
+.foot small{color:var(--ink-3);display:block;margin-top:10px;max-width:34em}
+@media (hover:hover) and (pointer:fine){.foot nav a:hover{color:var(--ink)}}
+
+
+/* ---------- Bewegung ---------- */
+/* Pinguva lebt: blinzeln, schweben, winken, sprechen */
+.pingu-live .augen{transform-box:fill-box;transform-origin:center;animation:blinzeln 5.5s infinite}
+@keyframes blinzeln{0%,93%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.12)}}
+.pingu-live .fluegel-r{transform-box:fill-box;transform-origin:50% 12%;transform:rotate(var(--hebe,0deg));transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.pingu-live .blick{transform:translate(var(--bx,0px),var(--by,0px));transition:transform .15s ease-out}
+.pingu-live{rotate:var(--neig,0deg);transition:rotate .6s var(--ease-out)}
+.pingu-live.winkt .fluegel-r{animation:winken .5s ease-in-out 3 alternate}
+@keyframes winken{from{transform:rotate(0)}to{transform:rotate(-38deg)}}
+.anim .mascot-hero{animation:schweben 4.5s ease-in-out infinite}
+@keyframes schweben{0%,100%{translate:0 0}50%{translate:0 -7px}}
+.spricht .wellen{animation:reden .9s ease-in-out infinite}
+@keyframes reden{0%,100%{opacity:0}40%{opacity:1}}
+.spricht .wellen .w2{animation:reden .9s ease-in-out .15s infinite}
+.mascot-hero,.dl .mascot{cursor:pointer}
+.dl.erfolg .mascot{animation:hupf .8s cubic-bezier(.34,1.56,.64,1)}
+@keyframes hupf{0%{transform:none}35%{transform:translateY(-22px) rotate(-4deg)}65%{transform:translateY(0) scaleY(.94)}100%{transform:none}}
+
+/* Telefon neigt sich leicht zum Zeiger */
+.hero-stage .phone{transition:transform .5s var(--ease-out);will-change:transform}
+
+/* Einblenden beim Scrollen */
+.anim .rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease-out),transform .8s var(--ease-out);transition-delay:var(--d,0ms)}
+.anim .rv.in-view{opacity:1;transform:none}
+.anim .local-grid>div{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease-out),transform .7s var(--ease-out);transition-delay:calc(300ms + var(--d,0ms))}
+.anim .local.in-view .local-grid>div{opacity:1;transform:none}
+
+/* Ablauf: Linie zeichnet sich, Schritte ploppen nacheinander auf */
+.anim .flow::before{transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--ease-out) .1s}
+.anim .flow li::before{opacity:0;transform:scale(.3);transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .25s;transition-delay:calc(var(--i,0)*240ms + 150ms)}
+.anim .flow li>*{opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease-out),transform .6s var(--ease-out);transition-delay:calc(var(--i,0)*240ms + 300ms)}
+.anim .flow.in-view::before,.anim .flow.in-view li::before,.anim .flow.in-view li>*{opacity:1;transform:none}
+.flow .alarm{animation:none}
+.anim .flow.in-view .alarm{animation:puls 1.6s ease-in-out 1.6s 2}
+@keyframes puls{50%{opacity:.45}}
+@media (max-width:900px){.anim .flow::before{transform:scaleY(0);transform-origin:top}}
+
+/* Knöpfe */
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 28px -12px rgba(61,80,232,.85)}
+  .btn-primary:hover .glocke{animation:glocke .7s ease-in-out}
+  .btn-primary:active{transform:scale(.97)}
+}
+.glocke{transform-origin:50% 10%}
+@keyframes glocke{20%{transform:rotate(16deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(7deg)}80%{transform:rotate(-3deg)}}
+
+/* ---------- Warteliste ---------- */
+.wl-form{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;max-width:580px}
+.field label{display:block;font-weight:600;font-size:.92rem;margin-bottom:6px}
+.field label span{font-weight:400;color:var(--ink-3)}
+.field input{width:100%;font:inherit;font-size:1rem;padding:14px 16px;border-radius:var(--r-m);border:1.5px solid var(--line);background:var(--bg);color:var(--ink);transition:border-color .16s,box-shadow .2s,background-color .16s}
+.field input::placeholder{color:#A3AAC6}
+.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(61,80,232,.16);background:#fff}
+.field input[aria-invalid="true"]{border-color:var(--alarm);box-shadow:0 0 0 4px rgba(229,72,77,.12)}
+.field.wackeln{animation:wackeln .4s}
+@keyframes wackeln{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.wl-form .btn{grid-column:1/-1;justify-self:start;margin-top:4px}
+.wl-form .btn[aria-busy="true"]{opacity:.75;pointer-events:none}
+.wl-form .btn[aria-busy="true"] .glocke{animation:glocke .7s ease-in-out infinite}
+.wl-form[hidden]{display:none}
+svg.pingu-live{overflow:visible}
+.wl-hint,.wl-msg{grid-column:1/-1;font-size:.9rem;color:var(--ink-3);margin:0}
+.wl-msg:empty{display:none}
+.wl-msg.fehler{color:var(--alarm);font-weight:500}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.wl-done{display:flex;gap:16px;align-items:center;background:#E9F8F3;border-radius:var(--r-l);padding:20px 22px;max-width:580px;outline:none}
+.wl-done[hidden]{display:none}
+.wl-done svg{width:52px;height:52px;flex:none}
+.wl-done circle{stroke-dasharray:145;stroke-dashoffset:145;animation:zeichnen .6s var(--ease-out) forwards}
+.wl-done path{stroke-dasharray:40;stroke-dashoffset:40;animation:zeichnen .4s var(--ease-out) .45s forwards}
+@keyframes zeichnen{to{stroke-dashoffset:0}}
+.wl-done h3{margin-bottom:4px}
+@media (max-width:560px){.wl-form{grid-template-columns:1fr}}
+
+/* Reduzierte Bewegung: alles sofort sichtbar, kein Gleiten */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .wl-done circle,.wl-done path{stroke-dashoffset:0}
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+}
+
+
+/* Cloud-Modelle im Chat */
+.cloud{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);align-items:center}
+.cloud .lead{margin-top:16px}
+.darf{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+.darf div{background:var(--surface);border-radius:var(--r-l);padding:20px;box-shadow:var(--shadow-1)}
+.darf h3{font-size:1.02rem;margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.darf h3::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;background:var(--beak)}
+.darf .lokal h3::before{background:var(--mint)}
+.darf ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;color:var(--ink-2);font-size:.96rem}
+.cloud-note{margin-top:16px;font-size:.92rem;color:var(--ink-3);max-width:38em}
+@media (max-width:900px){.cloud{grid-template-columns:1fr}}
+@media (max-width:520px){.darf{grid-template-columns:1fr}}
+.chatdemo{background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--shadow-2);padding:18px;display:grid;gap:14px;max-width:460px;width:100%;justify-self:center}
+.chatdemo .kopf{display:flex;align-items:center;gap:10px;font:700 1rem var(--f-head)}
+.chatdemo .kopf svg{width:26px;height:26px}
+.modelle{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--bg);border-radius:14px;padding:4px}
+.modelle button{all:unset;cursor:pointer;text-align:center;font-weight:600;font-size:.9rem;padding:9px 4px;border-radius:10px;color:var(--ink-2);transition:background-color .2s var(--ease-out),color .2s,box-shadow .2s}
+.modelle button[aria-checked="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-1)}
+.modelle button:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.modell-status{display:flex;gap:9px;align-items:flex-start;font-size:.9rem;border-radius:12px;padding:10px 12px;background:#E3F7F1;color:#0D6B53;transition:background-color .25s,color .25s}
+.modell-status.cloud-an{background:#FFF1E3;color:#8F4A0E}
+.modell-status svg{width:18px;height:18px;flex:none;margin-top:1px}
+.chatdemo .ask{font-size:.95rem}
+.chatdemo .answer{font-size:.95rem;background:var(--bg);box-shadow:none}
+.chatdemo .answer small{display:block;color:var(--ink-3);font-size:.8rem;margin-bottom:4px}
+.anim .chatdemo .answer.neu{animation:swap .3s var(--ease-out)}
+
+
+/* Mundart */
+.mundart{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,6vw,90px);align-items:center}
+.mundart .lead{margin-top:18px}
+.vergleich{display:grid;gap:14px}
+.sprech{display:flex;gap:14px;align-items:flex-end}
+.sprech .wer{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:700 .8rem var(--f-head);background:var(--ice-2);color:var(--ink-2)}
+.sprech .wer svg{width:44px;height:44px}
+.blase{padding:16px 20px;border-radius:22px 22px 22px 6px;font:600 clamp(1.05rem,1.9vw,1.3rem)/1.35 var(--f-head);letter-spacing:-.01em}
+.sprech.andere .blase{background:var(--surface);color:var(--ink-3);box-shadow:inset 0 0 0 1.5px var(--line)}
+.sprech.andere small{display:block;font:500 .8rem var(--f-body);margin-top:6px}
+.sprech.pv .blase{background:var(--accent);color:#fff;box-shadow:var(--shadow-2);font-size:clamp(1.25rem,2.4vw,1.65rem)}
+.sprech.pv small{display:block;font:500 .82rem var(--f-body);color:#C9D0FF;margin-top:8px}
+.anim .vergleich.in-view .sprech.pv .blase{animation:ploppen .6s cubic-bezier(.34,1.56,.64,1) .35s both}
+@keyframes ploppen{from{transform:scale(.85) translateY(10px);opacity:0}}
+@media (max-width:860px){.mundart{grid-template-columns:1fr}}
+
+/* Early Access */
+.check{grid-column:1/-1;display:flex;gap:12px;align-items:flex-start;background:var(--ice);border-radius:var(--r-m);padding:14px 16px;cursor:pointer}
+.check input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;border-radius:7px;border:2px solid var(--accent);background:#fff;margin:1px 0 0;cursor:pointer;transition:background-color .15s}
+.check input:checked{background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/15px no-repeat}
+.check input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.check span{font-size:.97rem}
+.early{display:inline-block;font-size:.82rem;font-weight:700;padding:5px 11px;border-radius:99px;background:var(--mint);color:#063B2E;margin-bottom:14px}
+
+/* ---------- Neue Abschnitte ---------- */
+.trust{display:flex;flex-wrap:wrap;gap:14px 36px;justify-content:center;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust span{display:inline-flex;align-items:center;gap:9px;font-weight:600}
+.trust svg{width:20px;height:20px;flex:none}
+
+.pain{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,90px);align-items:start}
+.pain .lead{margin-top:18px}
+.pain-list{list-style:none;margin:0;padding:0;display:grid;gap:26px}
+.pain-list li{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start}
+.ico{width:44px;height:44px;border-radius:13px;background:#FFF1E3;display:grid;place-items:center}
+.ico svg{width:22px;height:22px}
+.pain-list b{display:block;font:700 1.15rem/1.3 var(--f-head);margin-bottom:4px}
+.pain-list p{color:var(--ink-2)}
+@media (max-width:820px){.pain{grid-template-columns:1fr}}
+
+/* Lokale KI: Aufbau */
+.arch{display:grid;grid-template-columns:auto minmax(40px,1fr) 2.4fr minmax(40px,.8fr) auto;align-items:center;margin-top:48px}
+.node{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:#fff;font-weight:600}
+.node .kreis{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center}
+.node .kreis svg{width:30px;height:30px}
+.node small{color:#A9B4EE;font-weight:400;font-size:.85rem;max-width:12em}
+.node.off{opacity:.55}
+.arch-line{height:3px;background:rgba(255,255,255,.2);position:relative;overflow:hidden;border-radius:3px;margin:0 10px}
+.arch-line i{position:absolute;top:-2.5px;left:-10px;width:8px;height:8px;border-radius:50%;background:var(--mint);animation:fluss 2.4s linear infinite}
+.arch-line i:nth-child(2){animation-delay:.8s}.arch-line i:nth-child(3){animation-delay:1.6s}
+@keyframes fluss{to{left:100%}}
+.arch-no{height:0;border-top:3px dashed rgba(255,255,255,.25);position:relative;margin:0 10px}
+.arch-no::after{content:"";position:absolute;left:50%;top:-14px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:var(--alarm) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 8l8 8M16 8l-8 8' stroke='%23fff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center/18px no-repeat}
+.firm{border:2px dashed rgba(255,255,255,.35);border-radius:26px;padding:22px;position:relative}
+.firm-label{position:absolute;top:-13px;left:20px;background:var(--deep);padding:0 10px;font:700 .95rem/26px var(--f-head);color:#fff}
+.server{background:#fff;color:var(--ink);border-radius:18px;padding:18px 18px 16px}
+.server b{font:700 1.1rem/1.2 var(--f-head)}
+.server small{display:block;color:var(--ink-3);margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chips span{font-size:.85rem;font-weight:600;padding:6px 10px;border-radius:9px;background:var(--ice);color:var(--accent-press)}
+.devices{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.devices span{font-size:.85rem;padding:6px 10px;border-radius:9px;background:rgba(255,255,255,.1);color:#DDE3FF}
+.anim .arch .firm{transition:box-shadow .6s}
+@media (max-width:860px){
+  .arch{grid-template-columns:1fr;justify-items:center;gap:0}
+  .arch-line{width:3px;height:44px;margin:10px 0}
+  .arch-line i{left:-2.5px;top:-10px;animation-name:fluss-v}
+  @keyframes fluss-v{to{top:100%}}
+  .arch-no{width:0;height:44px;border-top:0;border-left:3px dashed rgba(255,255,255,.25);margin:10px 0}
+  .arch-no::after{left:-14.5px;top:50%;margin:-13px 0 0}
+  .firm{width:100%}
+}
+.local-grid.sechs{grid-template-columns:repeat(3,1fr);row-gap:36px}
+@media (max-width:820px){.local-grid.sechs{grid-template-columns:1fr}}
+
+/* KI und Regeln */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:40px}
+.compare .col{border-radius:var(--r-xl);padding:clamp(24px,4vw,36px);background:var(--surface);box-shadow:var(--shadow-1)}
+.compare .col.regel{background:var(--ink);color:#fff}
+.compare .col.regel h3{color:#fff}
+.compare .col>p{margin-top:8px;color:var(--ink-2)}
+.compare .col.regel>p{color:#B8C0E0}
+.compare ul{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:10px}
+.compare li{display:flex;gap:10px;align-items:flex-start}
+.compare li::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;margin-top:.55em;background:var(--accent)}
+.compare .regel li::before{background:var(--beak)}
+@media (max-width:760px){.compare{grid-template-columns:1fr}}
+.freigabe{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:22px}
+.freigabe span{background:var(--surface);box-shadow:var(--shadow-1);border-radius:12px;padding:10px 14px;font-weight:600}
+.freigabe span.ok{background:#E3F7F1;color:#0D7A5F;box-shadow:none}
+.freigabe i{width:24px;height:2px;background:var(--ice-2);border-radius:2px}
+.freigabe-text{margin-top:14px;color:var(--ink-2);max-width:40em}
+
+/* Branchen */
+.branchen{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+.branche{background:var(--surface);border-radius:var(--r-l);padding:24px;box-shadow:var(--shadow-1);display:grid;gap:8px;align-content:start}
+.branche .ico{background:var(--ice);margin-bottom:6px}
+.branche p{color:var(--ink-2);font-size:.98rem}
+.branche .st{justify-self:start;font-size:.8rem;font-weight:600;padding:4px 9px;border-radius:99px;background:var(--ice);color:var(--ink-2);margin-top:6px}
+.branche.live{grid-column:1/-1;background:var(--accent);color:#fff;box-shadow:var(--shadow-2)}
+.branche.live h3{color:#fff;font-size:1.45rem}
+.branche.live p{color:#DCE1FF;max-width:34em}
+.branche.live .ico{background:rgba(255,255,255,.16)}
+.branche.live .st{background:var(--mint);color:#063B2E}
+.branche.frei{background:transparent;box-shadow:inset 0 0 0 2px var(--ice-2)}
+.branche.frei a{font-weight:600;justify-self:start;margin-top:6px}
+@media (max-width:900px){.branchen{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.branchen{grid-template-columns:1fr}.branche.live{grid-column:auto}}
+
+/* Pakete */
+.pakete{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:40px;max-width:940px}
+.paket{background:var(--surface);border-radius:var(--r-xl);padding:clamp(24px,4vw,36px);box-shadow:var(--shadow-1);display:flex;flex-direction:column;gap:14px}
+.paket.plus{box-shadow:inset 0 0 0 2px var(--accent),var(--shadow-2)}
+.paket h3{font-size:1.5rem}
+.paket .fuer{color:var(--ink-2)}
+.paket .preis{font:800 1.4rem/1 var(--f-head)}
+.paket .preis small{display:block;font:400 .88rem/1.4 var(--f-body);color:var(--ink-3);margin-top:6px}
+.paket ul{list-style:none;padding:0;margin:4px 0 0;display:grid;gap:10px}
+.paket li{display:flex;gap:10px;align-items:flex-start}
+.paket li::before{content:"";flex:none;width:18px;height:18px;margin-top:.2em;border-radius:50%;background:var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/13px no-repeat}
+.paket .hw{font-size:.92rem;color:var(--ink-2);background:var(--ice);border-radius:12px;padding:11px 13px;margin-top:auto}
+.paket .btn{align-self:flex-start}
+.badge{align-self:flex-start;font-size:.8rem;font-weight:700;padding:5px 10px;border-radius:99px;background:var(--accent);color:#fff}
+@media (max-width:760px){.pakete{grid-template-columns:1fr}}
+
+.flow.vier{grid-template-columns:repeat(4,1fr)}
+.flow.vier::before{right:calc(25% - 22px)}
+@media (max-width:900px){.flow.vier{grid-template-columns:1fr}}
+
+.field select{width:100%;font:inherit;font-size:1rem;padding:14px 16px;border-radius:var(--r-m);border:1.5px solid var(--line);background:var(--bg);color:var(--ink);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5' fill='none' stroke='%237A83A6' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:20px}
+.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(61,80,232,.16);background-color:#fff}
+.field.voll{grid-column:1/-1}
+@media (prefers-reduced-motion:reduce){.arch-line i{display:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+
+<!-- Pinguva-Figur: einmal definiert, mehrfach verwendet -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="pingu" viewBox="0 0 200 224">
+      <ellipse cx="76" cy="212" rx="22" ry="9" fill="#FF9A3C"/>
+      <ellipse cx="124" cy="212" rx="22" ry="9" fill="#FF9A3C"/>
+      <path d="M100 22C150 22 176 72 176 127C176 182 145 210 100 210C55 210 24 182 24 127C24 72 50 22 100 22Z" fill="#3D50E8"/>
+      <ellipse cx="26" cy="140" rx="12" ry="30" transform="rotate(18 26 140)" fill="#2A37AE"/>
+      <g class="fluegel-r"><ellipse cx="174" cy="140" rx="12" ry="30" transform="rotate(-18 174 140)" fill="#2A37AE"/></g>
+      <!-- Bauch als Sprechblase: Pinguva redet -->
+      <path d="M100 116C130 116 148 136 148 160C148 184 128 200 100 200C92 200 84 199 77 196L60 204L66 189C56 180 52 170 52 160C52 136 70 116 100 116Z" fill="#F4F7FF"/>
+      <ellipse cx="100" cy="86" rx="46" ry="33" fill="#FFFFFF"/>
+      <g class="augen"><g class="blick">
+      <circle cx="83" cy="83" r="7.5" fill="#16204A"/>
+      <circle cx="117" cy="83" r="7.5" fill="#16204A"/>
+      <circle cx="85.5" cy="80.5" r="2.4" fill="#fff"/>
+      <circle cx="119.5" cy="80.5" r="2.4" fill="#fff"/>
+      </g></g>
+      <ellipse cx="70" cy="98" rx="7" ry="4" fill="#FF8FA8" opacity=".55"/>
+      <ellipse cx="130" cy="98" rx="7" ry="4" fill="#FF8FA8" opacity=".55"/>
+      <path d="M91 96Q100 91 109 96Q100 110 91 96Z" fill="#FF9A3C"/>
+      <!-- Headset: Pinguva geht ans Telefon -->
+      <path d="M40 76C40 18 160 18 160 76" fill="none" stroke="#22C29A" stroke-width="9" stroke-linecap="round"/>
+      <rect x="28" y="64" width="20" height="32" rx="9" fill="#22C29A"/>
+      <rect x="152" y="64" width="20" height="32" rx="9" fill="#22C29A"/>
+      <path d="M38 94C38 116 52 124 70 121" fill="none" stroke="#1BA784" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="73" cy="120.5" r="6" fill="#16204A"/>
+      <g class="wellen" opacity="0" fill="none" stroke="#22C29A" stroke-width="3.5" stroke-linecap="round"><path class="w1" d="M84 114q5 6.5 0 13"/><path class="w2" d="M92 109q9 11.5 0 23"/></g>
+      <!-- Eislocke -->
+      <path d="M92 26Q98 12 106 20Q110 10 116 18" fill="none" stroke="#2A37AE" stroke-width="5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="mark" viewBox="0 0 40 40">
+      <circle cx="20" cy="21" r="17" fill="#3D50E8"/>
+      <ellipse cx="20" cy="21" rx="11" ry="8.5" fill="#fff"/>
+      <circle cx="16" cy="20" r="2" fill="#16204A"/>
+      <circle cx="24" cy="20" r="2" fill="#16204A"/>
+      <path d="M18 24q2-1.2 4 0q-2 3.2-4 0z" fill="#FF9A3C"/>
+      <path d="M6 20a14 14 0 0 1 28 0" fill="none" stroke="#22C29A" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="top" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Pinguva Startseite"><svg aria-hidden="true"><use href="#mark"/></svg>Pinguva</a>
+    <a class="link" href="#funktionen">Funktionen</a>
+    <a class="link" href="#lokal">Lokale KI</a>
+    <a class="link" href="#branchen">Branchen</a>
+    <a class="link" href="#pakete">Pakete</a>
+    <a class="btn btn-primary btn-small" href="#warteliste">Warteliste beitreten</a>
+  </div>
+</header>
+
+<main id="inhalt">
+
+<!-- ============ Begrüssung ============ -->
+<section class="hero" aria-labelledby="h-hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1 id="h-hero">Pinguva – die KI-Assistenz, die in Ihrer Firma bleibt</h1>
+      <p class="lead">Pinguva geht für Sie ans Telefon, versteht und spricht Schweizerdeutsch, vergibt Termine und bereitet E-Mails vor. Die KI dahinter läuft auf Ihrem eigenen Rechner – Ihre Gespräche verlassen das Haus nicht.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#warteliste">
+          <svg class="glocke" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>
+          Warteliste beitreten
+        </a>
+        <a class="btn btn-ghost" href="#vorschau">App ansehen</a>
+      </div>
+      <p class="hero-note">Jetzt eintragen und Pinguva als Erste testen – kostenlos und unverbindlich.</p>
+    </div>
+
+    <div class="hero-stage">
+      <div class="phone" role="img" aria-label="Pinguva auf dem Handy: ein Anruf auf Schweizerdeutsch wird verstanden und ein Termin gebucht.">
+        <div class="screen" aria-hidden="true">
+          <div class="sb"><span>09:12</span><span>●●● 5G</span></div>
+          <div class="appbar">
+            <svg><use href="#mark"/></svg>
+            <div><b>Live-Gespräch</b><small>Leitung offen</small></div>
+            <span class="pill">läuft</span>
+          </div>
+          <div class="scr-body seq" id="heroSeq">
+            <div class="who">Anruferin</div>
+            <div class="msg caller">Grüezi, chönnt ich nächsti Wuche en Termin ha? Am liebschte am Namittag.
+              <span class="tr">Übersetzt: Könnte ich nächste Woche einen Termin haben? Am liebsten am Nachmittag.</span></div>
+            <div class="tag">Anliegen: Termin</div>
+            <div class="typing" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="who r">Pinguva</div>
+            <div class="msg pv">Gern. Am Ziischtig am drüü wär no öppis frei. Passt Ihne das?</div>
+            <div class="msg caller">Ja, super, merci vilmal.</div>
+            <div class="done"><b>Termin gebucht</b><span>Di, 29. Sept., 15:00 · Frau Keller</span><span>Im Protokoll und beim Team</span></div>
+          </div>
+        </div>
+      </div>
+      <svg class="mascot-hero" data-pingu aria-hidden="true"><use href="#pingu"/></svg>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="trust">
+  <span><svg viewBox="0 0 24 24" fill="none" stroke="#22C29A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16 9.5"/></svg>KI läuft auf Ihrem Rechner</span><span><svg viewBox="0 0 24 24" fill="none" stroke="#22C29A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16 9.5"/></svg>Spricht Schweizerdeutsch</span><span><svg viewBox="0 0 24 24" fill="none" stroke="#22C29A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16 9.5"/></svg>Lokale KI als Standard</span><span><svg viewBox="0 0 24 24" fill="none" stroke="#22C29A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16 9.5"/></svg>Ihr Team gibt frei</span>
+</div></div>
+
+<!-- ============ Mundart ============ -->
+<section aria-labelledby="h-mundart">
+  <div class="wrap mundart">
+    <div class="rv">
+      <h2 id="h-mundart">Pinguva redet, wie Ihre Kundschaft redet.</h2>
+      <p class="lead">Wer in der Schweiz anruft, will nicht in Hochdeutsch begrüsst werden. Pinguva versteht Mundart und antwortet auf Schweizerdeutsch – mit einer Stimme, die auf Ihrem Rechner entsteht.</p>
+    </div>
+    <div class="vergleich rv">
+      <div class="sprech andere"><span class="wer">KI</span><div class="blase">Guten Tag, wie kann ich Ihnen behilflich sein?<small>So klingen die meisten KI-Assistenten</small></div></div>
+      <div class="sprech pv"><span class="wer"><svg aria-hidden="true"><use href="#mark"/></svg></span><div class="blase">Grüezi mitenand, do isch Pinguva. Wie chan ich Ihne hälfe?<small>So klingt Pinguva</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Problem ============ -->
+<section aria-labelledby="h-pain" style="padding-top:0">
+  <div class="wrap pain">
+    <div class="rv">
+      <h2 id="h-pain">Das Telefon klingelt immer im falschen Moment.</h2>
+      <p class="lead">Mitten im Termin, beim Kunden, auf der Baustelle. Pinguva nimmt ab, damit Sie weiterarbeiten können.</p>
+    </div>
+    <ul class="pain-list" data-stagger>
+      <li class="rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#E07A1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/><path d="M15 3a6 6 0 0 1 6 6M15 6.5a2.5 2.5 0 0 1 2.5 2.5"/></svg></span><div><b>Anrufe, die niemand annimmt</b><p>Wer nicht durchkommt, versucht es oft woanders. Pinguva ist da, auch wenn alle beschäftigt sind.</p></div></li>
+      <li class="rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#E07A1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12"/><path d="M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/></svg></span><div><b>Jeden Tag dieselben Fragen</b><p>Öffnungszeiten, Termin verschieben, Rückruf bitte. Routine, die Pinguva zuverlässig übernimmt.</p></div></li>
+      <li class="rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#E07A1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16v11H4z"/><path d="M6 5h12M8 2h8"/></svg></span><div><b>Anfragen, die liegen bleiben</b><p>Pinguva schreibt Antwortentwürfe auf E-Mails. Sie lesen kurz, ändern bei Bedarf und geben frei.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ Funktionen ============ -->
+<section id="funktionen" aria-labelledby="h-fn" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2 id="h-fn">So läuft ein Anruf mit Pinguva</h2>
+      <p class="lead">Vom ersten „Grüezi“ bis zum Eintrag im Kalender – ohne dass jemand aus Ihrem Team den Hörer abnehmen muss.</p>
+    </div>
+    <ol class="flow">
+      <li><h3>Abnehmen</h3><p>Pinguva nimmt den Anruf an Ihrer Nummer selbst an und begrüsst die anrufende Person.</p></li>
+      <li><h3>Verstehen</h3><p>Pinguva versteht Mundart – über 240 Wendungen kennt es schon – und antwortet auf Schweizerdeutsch.</p></li>
+      <li><h3>Einordnen</h3><p>Pinguva erkennt das Anliegen: Termin, Rückruf, Frage oder neue Adresse. Dringliches ordnen feste Regeln ein.</p></li>
+      <li><h3>Erledigen</h3><p>Termin buchen, verschieben oder absagen, Rückruf notieren, Kundendaten anlegen oder ändern.</p></li>
+      <li><h3>Übergeben</h3><p>Jede Änderung steht im Protokoll und landet als Aufgabe bei Ihrem Team.</p></li>
+    </ol>
+
+    <div class="sec-head rv" style="margin-top:clamp(72px,9vw,110px)">
+      <h2>Alles, was Pinguva kann</h2>
+    </div>
+    <div class="more" data-stagger>
+      <div class="rv"><span class="ico" style="background:var(--ice)"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><h3>Telefon-KI</h3><p>Nimmt Anrufe selbst an, hört zu und antwortet mit Stimme. Ihr Team liest jedes Gespräch live mit.</p></div>
+      <div class="rv"><span class="ico" style="background:var(--ice)"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></span><h3>Schweizerdeutsch</h3><p>Versteht Mundart und redet selbst Schweizerdeutsch – nicht steifes Hochdeutsch.</p></div>
+      <div class="rv"><span class="ico" style="background:var(--ice)"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/><path d="m9.5 15 2 2 3.5-4"/></svg></span><h3>Termine</h3><p>Bucht, verschiebt und sagt ab – passend zu Arbeitszeiten, Termintakt und freien Plätzen im Kalender.</p></div>
+      <div class="rv"><span class="ico" style="background:var(--ice)"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/></svg></span><h3>Rückrufe und Aufgaben</h3><p>Rückrufwünsche, neue Kundinnen, geänderte Nummern und Adressen – jedes Mal mit Aufgabe fürs Team.</p></div>
+      <div class="rv"><span class="ico" style="background:var(--ice)"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><h3>E-Mail-Entwürfe</h3><p>Schreibt Antworten auf eingehende Mails. Verschickt wird erst, wenn jemand freigibt.</p></div>
+      <div class="rv"><span class="ico" style="background:var(--ice)"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><h3>Antworten mit Beleg</h3><p>Fachfragen beantwortet Pinguva nur aus zugelassenen Quellen, mit Quellenangabe. Steht nichts drin, sagt es das.</p></div>
+      <div class="rv"><span class="ico" style="background:var(--ice)"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c.8-3.5 3.2-5.5 6-5.5s5.2 2 6 5.5M15 15c2.8 0 4.8 1.5 5.5 4.5"/></svg></span><h3>Kennt Ihre Firma</h3><p>Team, Durchwahlen, Öffnungszeiten, Betriebsferien. Was nirgends steht, erfindet Pinguva nicht.</p></div>
+      <div class="rv"><span class="ico" style="background:var(--ice)"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><path d="M12 15v2"/></svg></span><h3>Rollen und Protokoll</h3><p>Jede Person sieht nur, was sie braucht. Jede Änderung steht mit Name und Zeit im Protokoll, als CSV exportierbar.</p></div>
+      <div class="rv"><span class="ico" style="background:var(--ice)"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="7" height="8" rx="2"/><rect x="14" y="8" width="7" height="8" rx="2"/><path d="M10 12h4"/></svg></span><h3>Anbindung</h3><p>Gibt Termine per HL7 an Praxissoftware wie vitomed weiter. Weitere Systeme über eine Datenbank-Brücke.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ App-Vorschau ============ -->
+<section id="vorschau" aria-labelledby="h-prev" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2 id="h-prev">Ein Blick in die App</h2>
+      <p class="lead">Am Empfangs-PC, im Büro oder auf dem Firmenhandy – alle sehen denselben Stand.</p>
+    </div>
+    <div class="preview rv">
+      <div>
+        <div class="tabs" role="tablist" aria-label="Ansichten der App">
+          <button class="tab" role="tab" id="t-gespraech" aria-controls="p-gespraech" aria-selected="true"><h3>Gespräch</h3><p>Pinguva hört zu, übersetzt, stuft ein und handelt. Sie lesen live mit.</p></button>
+          <button class="tab" role="tab" id="t-ausgang" aria-controls="p-ausgang" aria-selected="false" tabindex="-1"><h3>E-Mail-Ausgang</h3><p>Entwürfe ohne medizinische Auskunft, in Schweizer Hochdeutsch. Versand erst nach Ihrer Freigabe.</p></button>
+          <button class="tab" role="tab" id="t-wissen" aria-controls="p-wissen" aria-selected="false" tabindex="-1"><h3>Wissensbasis</h3><p>Fachfragen mit nummerierten Belegen und Link zur offiziellen Quelle.</p></button>
+        </div>
+        <p class="preview-note">Nachgebaute Ansichten mit erfundenen Testdaten. Das Beispiel zur Wissensbasis stammt aus einer Arztpraxis.</p>
+      </div>
+
+      <div class="phone">
+        <div class="screen">
+          <div class="sb" aria-hidden="true"><span>10:30</span><span>●●● 5G</span></div>
+
+          <div class="panel" role="tabpanel" id="p-gespraech" aria-labelledby="t-gespraech" style="display:flex;flex-direction:column;flex:1">
+            <div class="appbar"><svg aria-hidden="true"><use href="#mark"/></svg><div><b>Live-Gespräch</b><small>Anruf von 079 ••• •• 18</small></div><span class="pill">läuft</span></div>
+            <div class="scr-body">
+              <div class="who">Anrufer</div>
+              <div class="msg caller">Ich sött min Termin am Friitig verschiebe, gaht das?<span class="tr">Übersetzt: Ich sollte meinen Termin am Freitag verschieben, geht das?</span></div>
+              <div class="who r">Pinguva</div>
+              <div class="msg pv">Gern. Ich han am Mäntig am drüü en freie Termin. Wär das guet?</div>
+              <div class="msg caller">Ja, das gaht.</div>
+              <div class="done"><b>Termin verschoben</b><span>Fr 09:00 → Mo 15:00 · Frau Keller</span><span>Im Protokoll vermerkt</span></div>
+            </div>
+          </div>
+
+          <div class="panel" role="tabpanel" id="p-ausgang" aria-labelledby="t-ausgang" hidden style="flex-direction:column;flex:1">
+            <div class="appbar"><svg aria-hidden="true"><use href="#mark"/></svg><div><b>Ausgang</b><small>1 Entwurf wartet</small></div><span class="pill wait">Freigabe</span></div>
+            <div class="scr-body">
+              <div class="mail"><div class="from"><span>R. Brunner</span><span>09:58</span></div><h4>Termin nächste Woche?</h4><p class="muted">Guten Tag, hätten Sie nächste Woche einen Termin für eine Kontrolle frei?</p></div>
+              <div class="draft"><em>Entwurf von Pinguva</em>Guten Tag Herr Brunner<br><br>Gerne können wir Ihnen am Dienstag, 29. September, um 10:15 Uhr einen Termin anbieten. Bitte bestätigen Sie kurz, ob Ihnen das passt.<br><br>Freundliche Grüsse<br>Ihr Team</div>
+              <div class="row-btns"><span>Ändern</span><span class="go">Freigeben</span></div>
+            </div>
+          </div>
+
+          <div class="panel" role="tabpanel" id="p-wissen" aria-labelledby="t-wissen" hidden style="flex-direction:column;flex:1">
+            <div class="appbar"><svg aria-hidden="true"><use href="#mark"/></svg><div><b>Wissensbasis</b><small>Nur offizielle Quellen</small></div></div>
+            <div class="scr-body">
+              <div class="ask">Wem empfiehlt das BAG die Grippeimpfung?</div>
+              <div class="answer">Laut BAG wird die Grippeimpfung unter anderem Personen ab 65 Jahren empfohlen <sup>[1]</sup>.</div>
+              <div class="src"><b>[1]</b><span>bag.admin.ch – Grippe: Impfung<br>importiert am 22.08.2026</span></div>
+              <div class="nf">Findet Pinguva nichts in den Quellen, lautet die Antwort: „Dazu steht in den importierten Quellen nichts."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Lokale KI ============ -->
+<section id="lokal" aria-labelledby="h-local" style="padding-top:0">
+  <div class="wrap">
+    <div class="local rv">
+      <h2 id="h-local">Ihre KI. Auf Ihrem Rechner.</h2>
+      <p class="lead">Viele KI-Assistenten schicken jedes Gespräch in die Cloud. Pinguva nicht: Sprachmodell, Spracherkennung und Stimme laufen auf einem Rechner in Ihrer Firma.</p>
+
+      <div class="arch" role="img" aria-label="Aufbau: Das Telefonnetz vermittelt nur den Anruf. Sprachmodell, Spracherkennung, Stimme und Daten liegen auf dem Pinguva-Rechner in Ihrer Firma. Eine Cloud-KI wird nicht gebraucht.">
+        <div class="node"><span class="kreis"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>Telefonnetz<small>vermittelt nur den Anruf</small></div>
+        <div class="arch-line" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="firm">
+          <span class="firm-label">Ihre Firma</span>
+          <div class="server"><b>Pinguva-Rechner</b><small>Büro-PC, NAS oder eigener Server</small>
+            <div class="chips"><span>Sprachmodell</span><span>Spracherkennung</span><span>Stimme</span><span>Daten und Protokoll</span></div>
+          </div>
+          <div class="devices"><span>Empfang</span><span>Büro</span><span>Firmenhandy – speichert nichts</span></div>
+        </div>
+        <div class="arch-no" aria-hidden="true"></div>
+        <div class="node off"><span class="kreis"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18z"/></svg></span>Cloud-KI<small>nicht nötig – im Chat wählbar</small></div>
+      </div>
+
+      <div class="local-grid sechs">
+        <div><h3>Lokales Sprachmodell</h3><p>Offene Modelle laufen direkt bei Ihnen – auf Wunsch Apertus, das Sprachmodell aus der Schweiz.</p></div>
+        <div><h3>Spracherkennung im Haus</h3><p>Was am Telefon gesagt wird, wird auf Ihrem Rechner in Text umgewandelt, nicht bei einem Cloud-Dienst.</p></div>
+        <div><h3>Eigene Stimme</h3><p>Die Stimme wird lokal erzeugt und lässt sich austauschen. Eine Schweizer Stimme ist in Arbeit.</p></div>
+        <div><h3>Telefon ohne Umweg</h3><p>Ein Schweizer Anbieter wie peoplefone oder sipcall vermittelt nur. Der Ton läuft direkt zu Ihnen, nicht über fremde KI-Server.</p></div>
+        <div><h3>Handys speichern nichts</h3><p>Firmenhandys zeigen nur an. Geht eines verloren, liegen darauf keine Kundendaten.</p></div>
+        <div><h3>Rechnet ohne Internet</h3><p>Die KI braucht keine Verbindung nach draussen. Adressen für Stimme und Spracherkennung sind nur im Firmennetz erlaubt.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Cloud-Modelle im Chat ============ -->
+<section id="cloud-chat" aria-labelledby="h-cloud" style="padding-top:0">
+  <div class="wrap cloud">
+    <div class="rv">
+      <h2 id="h-cloud">Lieber ChatGPT, Claude oder Gemini? Geht auch.</h2>
+      <p class="lead">Im KI-Chat wählen Sie selbst, welches Modell antwortet. Standard ist die lokale KI. Für allgemeine Fragen und Texte ohne Kundendaten können Sie ein Cloud-Modell zuschalten.</p>
+      <div class="darf">
+        <div><h3>Dafür ist die Cloud gedacht</h3><ul><li>Allgemeine Fragen</li><li>Dokumente und Texte erstellen</li><li>Daten ohne Personenbezug</li></ul></div>
+        <div class="lokal"><h3>Das bleibt immer lokal</h3><ul><li>Telefon und Spracherkennung</li><li>Termine und Kalender</li><li>Kunden- und Patientendaten</li></ul></div>
+      </div>
+      <p class="cloud-note">Sie nutzen Ihren eigenen Zugang beim Anbieter. Der Zugangsschlüssel liegt auf dem Pinguva-Rechner, nicht im Browser.</p>
+    </div>
+
+    <div class="chatdemo rv" aria-label="Beispiel: Modellwahl im KI-Chat">
+      <div class="kopf"><svg aria-hidden="true"><use href="#mark"/></svg>KI-Chat</div>
+      <div class="modelle" role="radiogroup" aria-label="Modell wählen">
+        <button role="radio" aria-checked="true" data-modell="lokal">Lokal</button>
+        <button role="radio" aria-checked="false" tabindex="-1" data-modell="ChatGPT">ChatGPT</button>
+        <button role="radio" aria-checked="false" tabindex="-1" data-modell="Claude">Claude</button>
+        <button role="radio" aria-checked="false" tabindex="-1" data-modell="Gemini">Gemini</button>
+      </div>
+      <p class="modell-status" id="modellStatus" aria-live="polite"></p>
+      <div class="ask">Entwirf einen Aushang zu unseren Betriebsferien vom 21. Dezember bis 4. Januar.</div>
+      <div class="answer" id="modellAntwort"><small>Lokale KI</small>Gerne, hier ein Vorschlag: „Liebe Kundschaft, vom 21. Dezember bis 4. Januar bleibt unser Betrieb geschlossen …“</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KI und Regeln ============ -->
+<section aria-labelledby="h-regeln" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2 id="h-regeln">KI, wo sie hilft. Regeln, wo es zählt.</h2>
+      <p class="lead">Eine KI formuliert mal so, mal anders. Für einen Mail-Entwurf ist das gut. Für Termine und Dringlichkeit nicht – dort entscheiden bei Pinguva feste Regeln.</p>
+    </div>
+    <div class="compare" data-stagger>
+      <div class="col rv"><h3>Das macht die KI</h3><p>Sprache verstehen und formulieren.</p>
+        <ul><li>Freie Gespräche und Rückfragen</li><li>Zusammenfassungen von Gesprächen</li><li>Antwortentwürfe auf E-Mails</li><li>Fragen zu Ihren Quellen, mit Beleg</li></ul></div>
+      <div class="col regel rv"><h3>Das machen feste Regeln</h3><p>Derselbe Satz ergibt immer dasselbe Ergebnis.</p>
+        <ul><li>Dringlichkeit einstufen, mit Nachweis</li><li>Termine nach Ihren Arbeitszeiten vergeben</li><li>Alarm bei Notfällen</li><li>Gesprochene Standardantworten</li></ul></div>
+    </div>
+    <div class="freigabe rv" aria-label="Ablauf: Entwurf, prüfen, freigeben, Protokoll">
+      <span>Entwurf</span><i></i><span>Prüfen</span><i></i><span>Freigeben</span><i></i><span class="ok">Protokoll</span>
+    </div>
+    <p class="freigabe-text rv">Nichts geht von selbst hinaus. E-Mails und Nachrichten an andere Systeme warten auf eine Freigabe durch Ihr Team – mit Name und Zeit im Protokoll.</p>
+  </div>
+</section>
+
+<!-- ============ Branchen ============ -->
+<section id="branchen" aria-labelledby="h-br" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2 id="h-br">Für jede Firma, bei der das Telefon zählt</h2>
+      <p class="lead">Pinguva startet in Arztpraxen – dort, wo die Anforderungen am strengsten sind. Weitere Branchen folgen.</p>
+    </div>
+    <div class="branchen" data-stagger>
+      <div class="branche rv live"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/><path d="M9 11h2l1-2 1.5 4 1-2H17"/></svg></span><h3>Arztpraxen</h3><p>Termine, Rückrufe und Rezeptwünsche am Telefon. Dringlichkeit nach festen Regeln, Alarm mit Hinweis auf 144 und Anschluss an Praxissoftware wie vitomed.</p><span class="st">Im Probelauf</span></div>
+      <div class="branche rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 8v6l-3 7M12 14l3 7M7 11l5-3 5 3"/></svg></span><h3>Therapie und Physio</h3><p>Termine buchen, verschieben und absagen, während Sie behandeln.</p><span class="st">In Vorbereitung</span></div>
+      <div class="branche rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="7" r="3"/><circle cx="6" cy="17" r="3"/><path d="M8.5 8.5 20 18M8.5 15.5 20 6"/></svg></span><h3>Coiffeur und Kosmetik</h3><p>Keine Anrufe mehr mit Schere in der Hand. Pinguva füllt den Kalender.</p><span class="st">In Vorbereitung</span></div>
+      <div class="branche rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4z"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/><path d="M4 12h16"/></svg></span><h3>Garagen und Werkstätten</h3><p>Serviceanfragen und Rückrufwünsche aufnehmen, Termine vergeben.</p><span class="st">In Vorbereitung</span></div>
+      <div class="branche rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4l6 6-3 3-6-6z"/><path d="M11 7 4 14l3 3 7-7"/></svg></span><h3>Handwerk</h3><p>Erreichbar sein, auch wenn alle auf der Baustelle sind.</p><span class="st">In Vorbereitung</span></div>
+      <div class="branche rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#3D50E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><h3>Treuhand und Büros</h3><p>Öffnungszeiten, Rückrufe und E-Mail-Entwürfe für Ihre Kundschaft.</p><span class="st">In Vorbereitung</span></div>
+      <div class="branche frei rv"><h3>Ihre Branche fehlt?</h3><p>Sagen Sie uns auf der Warteliste, wofür Sie Pinguva brauchen.</p><a href="#warteliste">Zur Warteliste</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Pakete ============ -->
+<section id="pakete" aria-labelledby="h-pk" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2 id="h-pk">Zwei Pakete, ein Ziel</h2>
+      <p class="lead">Starten Sie mit Ihrem bestehenden Büro-PC. Wenn Pinguva frei sprechen soll, kommt ein Rechner mit Grafikkarte dazu.</p>
+    </div>
+    <div class="pakete" data-stagger>
+      <!-- PREIS: Preise hier eintragen, sobald sie feststehen -->
+      <div class="paket rv">
+        <h3>Pinguva Basis</h3>
+        <p class="fuer">Das Telefon ist erledigt.</p>
+        <p class="preis">Preis folgt<small>Wird bekannt gegeben, sobald Pinguva startet.</small></p>
+        <ul><li>Telefon-KI mit festen Abläufen</li><li>Termine, Rückrufe und Ansagen</li><li>Mundart verstehen und sprechen</li><li>Lokale Stimme und Spracherkennung</li><li>Rollen, Rechte und Protokoll</li></ul>
+        <p class="hw">Läuft auf einem normalen Windows-Büro-PC. Keine Grafikkarte nötig.</p>
+        <a class="btn btn-ghost" href="#warteliste">Warteliste beitreten</a>
+      </div>
+      <div class="paket plus rv">
+        <span class="badge">Mit Sprachmodell</span>
+        <h3>Pinguva Plus</h3>
+        <p class="fuer">Pinguva spricht frei und schreibt mit.</p>
+        <p class="preis">Preis folgt<small>Wird bekannt gegeben, sobald Pinguva startet.</small></p>
+        <ul><li>Alles aus Basis</li><li>Freie Gespräche statt fester Sätze</li><li>KI-Assistent und Zusammenfassungen</li><li>E-Mail-Entwürfe mit Freigabe</li><li>Wissensbasis mit Belegen</li></ul>
+        <p class="hw">Braucht einen Rechner mit Grafikkarte. Den kaufen Sie selbst oder über Ihren IT-Partner.</p>
+        <a class="btn btn-primary" href="#warteliste"><svg class="glocke" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>Warteliste beitreten</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Einrichtung ============ -->
+<section aria-labelledby="h-setup" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2 id="h-setup">In vier Schritten startklar</h2>
+    </div>
+    <ol class="flow vier">
+      <li><h3>Installieren</h3><p>Pinguva auf einem Windows-Rechner oder NAS in Ihrer Firma einrichten.</p></li>
+      <li><h3>Firma eintragen</h3><p>Team, Öffnungszeiten, Ferien und Termintakt hinterlegen.</p></li>
+      <li><h3>Telefon verbinden</h3><p>Ihre Nummer über einen Schweizer Anbieter wie peoplefone oder sipcall anschliessen.</p></li>
+      <li><h3>Loslegen</h3><p>Pinguva nimmt ab. Ihr Team sieht jedes Gespräch live.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ Warteliste ============ -->
+<section id="warteliste" aria-labelledby="h-dl" style="padding-top:0">
+  <div class="wrap">
+    <div class="dl rv" id="wlBox">
+      <svg class="mascot" data-pingu aria-hidden="true"><use href="#pingu"/></svg>
+      <div>
+        <span class="early">Early Access</span>
+        <h2 id="h-dl">Auf die Liste – und früh testen</h2>
+        <p class="lead">Pinguva ist im Probelauf. Tragen Sie sich ein: Die ersten Firmen auf der Liste können Pinguva vor dem offiziellen Start testen.</p>
+        <!--
+          ================================================================
+          WARTELISTE: Wohin die Anmeldungen gehen, steht unten im Skript
+          bei PINGUVA_WARTELISTE.url. Solange dort "" steht, wird nichts
+          gespeichert – die Seite sagt das dann auch.
+          ================================================================
+        -->
+        <form class="wl-form" id="wlForm" novalidate style="margin-top:26px">
+          <div class="field">
+            <label for="wl-mail">E-Mail</label>
+            <input type="email" id="wl-mail" name="email" required autocomplete="email" inputmode="email" placeholder="info@firma.ch">
+          </div>
+          <div class="field">
+            <label for="wl-firma">Firma <span>(optional)</span></label>
+            <input type="text" id="wl-firma" name="firma" autocomplete="organization" placeholder="Muster AG, Zürich">
+          </div>
+          <div class="field voll">
+            <label for="wl-branche">Branche <span>(optional)</span></label>
+            <select id="wl-branche" name="branche">
+              <option value="">Bitte wählen</option>
+              <option>Arztpraxis</option><option>Therapie und Physio</option><option>Coiffeur und Kosmetik</option>
+              <option>Garage und Werkstatt</option><option>Handwerk</option><option>Treuhand und Büro</option><option>Andere Branche</option>
+            </select>
+          </div>
+          <label class="check"><input type="checkbox" name="early_access" value="ja" id="wl-early" checked><span><b>Early Access:</b> Ich möchte Pinguva vor dem Start in meiner Firma testen.</span></label>
+          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn btn-primary" type="submit" id="wlButton"><svg class="glocke" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span>Warteliste beitreten</span></button>
+          <!-- DATENSCHUTZ: Link zur Datenschutzerklärung eintragen -->
+          <p class="wl-hint">Ihre Angaben verwenden wir nur, um Sie über Pinguva zu informieren. Mehr dazu im <a href="#" data-platzhalter="datenschutz">Datenschutz</a>.</p>
+          <p class="wl-msg" id="wlMsg" role="status" aria-live="polite"></p>
+        </form>
+        <div class="wl-done" id="wlDone" hidden tabindex="-1">
+          <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23" fill="none" stroke="#22C29A" stroke-width="4"/><path d="M15 27l7 7 15-16" fill="none" stroke="#22C29A" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><h3>Sie stehen auf der Warteliste.</h3><p class="muted" id="wlDoneText">Wir melden uns per E-Mail, sobald Pinguva bereitsteht.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Häufige Fragen ============ -->
+<section id="fragen" aria-labelledby="h-faq" style="padding-top:0">
+  <div class="wrap">
+    <h2 id="h-faq" class="rv">Kurz gefragt</h2>
+    <div class="faq" data-stagger>
+      <details class="rv"><summary>Braucht Pinguva Internet?</summary><div class="ans">Die KI nicht – sie rechnet auf Ihrem Rechner. Für Anrufe von aussen braucht es einen Telefonanbieter.</div></details>
+      <details class="rv"><summary>Welchen Rechner brauche ich?</summary><div class="ans">Für Basis einen normalen Windows-PC. Für Plus einen Rechner mit Grafikkarte.</div></details>
+      <details class="rv"><summary>Macht Pinguva etwas ohne mein Team?</summary><div class="ans">Nein. E-Mails und Übergaben an andere Systeme brauchen immer eine Freigabe.</div></details>
+      <details class="rv"><summary>Ab wann kann ich Pinguva nutzen?</summary><div class="ans">Pinguva ist im Probelauf. Mit Early Access testen Sie es schon vor dem Start.</div></details>
+      <details class="rv"><summary>Kann ich ChatGPT, Claude oder Gemini nutzen?</summary><div class="ans">Ja, im KI-Chat – für allgemeine Fragen und Texte ohne Kundendaten. Alles andere bleibt lokal.</div></details>
+      <details class="rv"><summary>Was kostet Pinguva?</summary><div class="ans">Die Preise stehen noch nicht fest. Die Warteliste ist kostenlos.</div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="#top"><svg aria-hidden="true"><use href="#mark"/></svg>Pinguva</a>
+      <small>© <span id="jahr">2026</span> Pinguva. Die KI-Assistenz, die in Ihrer Firma bleibt.</small>
+    </div>
+    <nav aria-label="Rechtliches">
+      <!-- KONTAKT: echte E-Mail-Adresse eintragen, z. B. href="mailto:info@…" -->
+      <a href="#" data-platzhalter="kontakt">Kontakt</a>
+      <!-- DATENSCHUTZ: Link zur Datenschutzerklärung eintragen -->
+      <a href="#" data-platzhalter="datenschutz">Datenschutz</a>
+      <!-- IMPRESSUM: Link zum Impressum eintragen -->
+      <a href="#" data-platzhalter="impressum">Impressum</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   WARTELISTE-EINSTELLUNG
+   Hier – und nur hier – eintragen, wohin Anmeldungen geschickt werden.
+   Beispiel mit Formspree (gratis, ohne eigenen Server):
+     url: "https://formspree.io/f/DEINE-ID"
+   Oder ein eigener Endpunkt, der POST mit Formulardaten annimmt.
+   Solange url leer ist, wird NICHTS gespeichert und die Seite sagt das.
+   ===================================================================== */
+const PINGUVA_WARTELISTE = {
+  url: ""   // <-- WARTELISTE-ADRESSE HIER EINTRAGEN
+};
+
+/* =====================================================================
+   ZUGANG / PREIS – Vorbereitung für später, noch ohne Funktion.
+   art: "warteliste" (jetzt) | später z. B. "kostenlos" oder "abo"
+   ===================================================================== */
+const PINGUVA_ZUGANG = { art: "warteliste" };
+
+const ANIM = document.documentElement.classList.contains("anim");
+
+/* Pinguva-Figuren lebendig machen: Symbol direkt einsetzen */
+(function(){
+  const sym = document.getElementById("pingu");
+  document.querySelectorAll("svg[data-pingu]").forEach(svg => {
+    svg.setAttribute("viewBox", sym.getAttribute("viewBox"));
+    svg.innerHTML = sym.innerHTML;
+    svg.classList.add("pingu-live");
+    const winken = () => {
+      if (!ANIM || svg.classList.contains("winkt")) return;
+      svg.classList.add("winkt");
+      setTimeout(() => svg.classList.remove("winkt"), 1600);
+    };
+    svg.addEventListener("mouseenter", winken);
+    svg.addEventListener("click", winken);
+    svg._winken = winken;
+  });
+})();
+
+/* Warteliste */
+(function(){
+  const form = document.getElementById("wlForm");
+  const mail = document.getElementById("wl-mail");
+  const btn  = document.getElementById("wlButton");
+  const msg  = document.getElementById("wlMsg");
+  const done = document.getElementById("wlDone");
+  const box  = document.getElementById("wlBox");
+  const figur = box.querySelector(".mascot");
+  const gueltig = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+
+  mail.addEventListener("input", () => {
+    if (mail.getAttribute("aria-invalid") === "true" && gueltig(mail.value.trim())) {
+      mail.removeAttribute("aria-invalid"); msg.textContent = ""; msg.classList.remove("fehler");
+    }
+  });
+
+  function fehler(text, feld){
+    msg.textContent = text; msg.classList.add("fehler");
+    if (feld) {
+      feld.setAttribute("aria-invalid", "true"); feld.focus();
+      const f = feld.closest(".field"); f.classList.remove("wackeln"); void f.offsetWidth; f.classList.add("wackeln");
+    }
+  }
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    msg.textContent = ""; msg.classList.remove("fehler");
+    if (form._gotcha.value) return;                       // Spam-Falle
+    if (!gueltig(mail.value.trim())) return fehler("Bitte geben Sie eine gültige E-Mail-Adresse ein.", mail);
+
+    const url = (PINGUVA_WARTELISTE.url || "").trim();
+    if (!url) {
+      console.warn("Pinguva: PINGUVA_WARTELISTE.url ist leer – Anmeldung wurde nicht gespeichert.");
+      return fehler("Die Anmeldung ist noch nicht freigeschaltet. Bitte versuchen Sie es in ein paar Tagen wieder.");
+    }
+
+    btn.setAttribute("aria-busy", "true");
+    btn.querySelector("span").textContent = "Wird eingetragen …";
+    try {
+      const r = await fetch(url, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) });
+      if (!r.ok) throw new Error(r.status);
+      form.hidden = true;
+      if (document.getElementById("wl-early").checked)
+        document.getElementById("wlDoneText").textContent = "Für den Early Access melden wir uns per E-Mail bei Ihnen.";
+      done.hidden = false; done.focus();
+      box.classList.add("erfolg");
+      figur._winken && figur._winken();
+    } catch (err) {
+      fehler("Das hat nicht geklappt. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es nochmals.");
+    } finally {
+      btn.removeAttribute("aria-busy");
+      btn.querySelector("span").textContent = "Warteliste beitreten";
+    }
+  });
+})();
+
+/* Kopfzeile: Linie erst beim Scrollen */
+(function(){
+  const top = document.getElementById("top");
+  const f = () => top.classList.toggle("scrolled", window.scrollY > 8);
+  f(); window.addEventListener("scroll", f, { passive: true });
+})();
+
+/* Begrüssung: Gespräch läuft Zeile für Zeile ein – in Schleife */
+(function(){
+  const seq = document.getElementById("heroSeq");
+  if (!seq || !ANIM) return;
+  const stage = seq.closest(".hero-stage");
+  const figur = stage.querySelector(".mascot-hero");
+  const teile = [...seq.children];
+  const typing = seq.querySelector(".typing");
+  let timer = [];
+  const spaeter = (fn, ms) => timer.push(setTimeout(fn, ms));
+
+  function lauf(){
+    timer.forEach(clearTimeout); timer = [];
+    seq.classList.add("playing");
+    teile.forEach(el => el.classList.remove("in", "weg"));
+    let t = 500;
+    teile.forEach(el => {
+      spaeter(() => {
+        el.classList.add("in");
+        if (el.classList.contains("pv")) {
+          typing.classList.add("weg");
+          figur.classList.add("spricht");
+          spaeter(() => figur.classList.remove("spricht"), 2200);
+        }
+      }, t);
+      t += el.classList.contains("typing") ? 1300 : el.classList.contains("who") ? 220 : el.classList.contains("pv") ? 1500 : 800;
+    });
+    spaeter(() => { seq.classList.add("aus"); spaeter(() => { seq.classList.remove("aus"); lauf(); }, 450); }, t + 5000);
+  }
+  lauf();
+})();
+
+/* Telefon neigt sich leicht zum Zeiger (nur mit Maus) */
+(function(){
+  if (!ANIM || !matchMedia("(hover:hover) and (pointer:fine)").matches) return;
+  const stage = document.querySelector(".hero-stage");
+  const phone = stage.querySelector(".phone");
+  stage.addEventListener("pointermove", e => {
+    const r = stage.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    phone.style.transform = `perspective(1000px) rotateY(${x * 10}deg) rotateX(${-y * 8}deg)`;
+  });
+  stage.addEventListener("pointerleave", () => { phone.style.transform = ""; });
+})();
+
+/* Einblenden beim Scrollen */
+(function(){
+  if (!ANIM) return;
+  document.querySelectorAll(".flow").forEach(f => f.querySelectorAll("li").forEach((li, i) => li.style.setProperty("--i", i)));
+  document.querySelectorAll("[data-stagger]").forEach(box =>
+    [...box.children].forEach((el, i) => el.style.setProperty("--d", (i % 6) * 90 + "ms")));
+  const ziele = document.querySelectorAll(".rv,.flow,.local");
+  if (!("IntersectionObserver" in window)) { ziele.forEach(el => el.classList.add("in-view")); return; }
+  const io = new IntersectionObserver(eintraege => eintraege.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add("in-view"); io.unobserve(en.target); }
+  }), { rootMargin: "0px 0px -10% 0px", threshold: .12 });
+  ziele.forEach(el => io.observe(el));
+})();
+
+/* App-Vorschau: Reiter mit Tastatur (Pfeiltasten) */
+(function(){
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  function waehle(tab){
+    tabs.forEach(t => {
+      const an = t === tab;
+      t.setAttribute("aria-selected", an);
+      t.tabIndex = an ? 0 : -1;
+      const p = document.getElementById(t.getAttribute("aria-controls"));
+      p.hidden = !an;
+      p.style.display = an ? "flex" : "none";
+    });
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => waehle(t));
+    t.addEventListener("keydown", e => {
+      let n = null;
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") n = tabs[(i + 1) % tabs.length];
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") n = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (n) { e.preventDefault(); waehle(n); n.focus(); }
+    });
+  });
+})();
+
+
+
+/* Pinguin schaut dem Zeiger nach und hebt die Flosse, wenn man nah kommt */
+(function(){
+  const figuren = [...document.querySelectorAll("svg.pingu-live")];
+  if (!figuren.length) return;
+  let ziel = null, geplant = false;
+
+  function schauen(x, y){
+    figuren.forEach(svg => {
+      const r = svg.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > innerHeight + 200) return;   // nicht sichtbar
+      const ax = r.left + r.width * .5, ay = r.top + r.height * (83 / 224);   // Augenhöhe
+      const dx = x - ax, dy = y - ay, dist = Math.hypot(dx, dy) || 1;
+      const f = Math.min(dist / 220, 1);
+      svg.style.setProperty("--bx", (dx / dist * 5.5 * f).toFixed(2) + "px");
+      svg.style.setProperty("--by", (dy / dist * 4 * f).toFixed(2) + "px");
+      if (ANIM) {
+        svg.style.setProperty("--neig", Math.max(-5, Math.min(5, dx / 90)).toFixed(2) + "deg");
+        const nah = dist < r.width * 1.6;
+        svg.style.setProperty("--hebe", nah ? (dy < 0 ? "-55deg" : "-30deg") : "0deg");
+      }
+    });
+  }
+  function takt(){ geplant = false; if (ziel) schauen(ziel.x, ziel.y); }
+  function setze(x, y){ ziel = { x, y }; if (!geplant) { geplant = true; requestAnimationFrame(takt); } }
+
+  addEventListener("pointermove", e => setze(e.clientX, e.clientY), { passive: true });
+  addEventListener("pointerdown", e => setze(e.clientX, e.clientY), { passive: true });
+  addEventListener("scroll", () => { if (ziel) setze(ziel.x, ziel.y); }, { passive: true });
+  document.documentElement.addEventListener("pointerleave", () => {
+    ziel = null;
+    figuren.forEach(svg => ["--bx", "--by", "--neig", "--hebe"].forEach(v => svg.style.removeProperty(v)));
+  });
+
+  // Beim Ausfüllen schaut der Pinguin aufs Feld
+  document.getElementById("wlForm").addEventListener("focusin", e => {
+    const r = e.target.getBoundingClientRect();
+    setze(r.left + Math.min(r.width, 160) * .5, r.top + r.height / 2);
+  });
+  // Ohne Maus: am Anfang schaut der Pinguin aufs Gespräch im Handy
+  const phone = document.querySelector(".hero-stage .phone");
+  if (phone) { const r = phone.getBoundingClientRect(); schauen(r.left + r.width * .4, r.top + r.height * .45); }
+})();
+
+/* KI-Chat: Modellwahl (Beispiel) */
+(function(){
+  const knoepfe = [...document.querySelectorAll(".modelle [role=radio]")];
+  const status = document.getElementById("modellStatus");
+  const antwort = document.getElementById("modellAntwort");
+  if (!knoepfe.length) return;
+  const OK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16 9.5"/></svg>';
+  const WOLKE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18z"/></svg>';
+  const text = "Gerne, hier ein Vorschlag: „Liebe Kundschaft, vom 21. Dezember bis 4. Januar bleibt unser Betrieb geschlossen …“";
+  function waehle(k){
+    knoepfe.forEach(b => { const an = b === k; b.setAttribute("aria-checked", an); b.tabIndex = an ? 0 : -1; });
+    const m = k.dataset.modell, lokal = m === "lokal";
+    status.classList.toggle("cloud-an", !lokal);
+    status.innerHTML = lokal
+      ? OK + "<span>Läuft auf Ihrem Rechner. Geeignet für alle Daten.</span>"
+      : WOLKE + "<span>" + m + " läuft in der Cloud. Nur für allgemeine Fragen und Texte ohne Kundendaten.</span>";
+    antwort.innerHTML = "<small>" + (lokal ? "Lokale KI" : m) + "</small>" + text;
+    antwort.classList.remove("neu"); void antwort.offsetWidth; antwort.classList.add("neu");
+  }
+  knoepfe.forEach((b, i) => {
+    b.addEventListener("click", () => waehle(b));
+    b.addEventListener("keydown", e => {
+      let n = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") n = knoepfe[(i + 1) % knoepfe.length];
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") n = knoepfe[(i - 1 + knoepfe.length) % knoepfe.length];
+      if (n) { e.preventDefault(); waehle(n); n.focus(); }
+    });
+  });
+  waehle(knoepfe[0]);
+})();
+
+/* Platzhalter-Links: nicht ins Leere springen */
+document.querySelectorAll("[data-platzhalter]").forEach(a => a.addEventListener("click", e => {
+  if (a.getAttribute("href") === "#") e.preventDefault();
+}));
+document.getElementById("jahr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
