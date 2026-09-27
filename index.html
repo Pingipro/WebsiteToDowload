@@ -6,8 +6,20 @@
 <title>Pinguva – die KI-Assistenz, die in Ihrer Firma bleibt</title>
 <meta name="description" content="Pinguva geht für Ihre Firma ans Telefon, versteht Schweizerdeutsch, vergibt Termine und bereitet E-Mails vor. Die KI läuft lokal auf Ihrem eigenen Rechner.">
 <meta name="theme-color" content="#3D50E8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pinguva">
+<meta property="og:title" content="Pinguva – die KI-Assistenz, die in Ihrer Firma bleibt">
+<meta property="og:description" content="Pinguva geht für Ihre Firma ans Telefon, versteht Schweizerdeutsch, vergibt Termine und bereitet E-Mails vor. Die KI läuft lokal auf Ihrem eigenen Rechner.">
+<meta property="og:url" content="https://www.pinguva.ch/">
+<meta property="og:image" content="https://www.pinguva.ch/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <script>document.documentElement.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim");</script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='21' r='17' fill='%233D50E8'/%3E%3Cellipse cx='20' cy='21' rx='11' ry='8.5' fill='%23fff'/%3E%3Ccircle cx='16' cy='20' r='2' fill='%2316204A'/%3E%3Ccircle cx='24' cy='20' r='2' fill='%2316204A'/%3E%3Cpath d='M18 24q2-1.2 4 0q-2 3.2-4 0z' fill='%23FF9A3C'/%3E%3Cpath d='M6 20a14 14 0 0 1 28 0' fill='none' stroke='%2322C29A' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <!--
   Schriften: bewusst Systemschriften, keine Google Fonts.
   Grund: schneller, und es geht beim Seitenaufruf keine Besucher-IP an Dritte (DSG).
@@ -78,7 +90,8 @@ p{margin:0}
 .top.scrolled{border-bottom-color:var(--line)}
 .nav{display:flex;align-items:center;gap:28px;height:68px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font:800 1.35rem/1 var(--f-head);letter-spacing:-.02em;margin-right:auto}
-.brand svg{width:36px;height:36px}
+img.logo{flex:none;display:block}
+.brand .logo{width:36px;height:36px}
 .nav a.link{color:var(--ink-2);text-decoration:none;font-weight:500;font-size:.98rem;transition:color .16s}
 @media (max-width:820px){.nav a.link{display:none}.nav{gap:12px}}
 
@@ -91,13 +104,13 @@ p{margin:0}
 .hero-note{margin-top:14px;font-size:.95rem;color:var(--ink-3)}
 .hero-stage{position:relative;display:flex;justify-content:center;padding:10px 0 20px}
 .hero-stage::before{content:"";position:absolute;width:min(480px,92%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 45%,var(--ice-2),var(--ice) 55%,transparent 72%);top:50%;left:50%;transform:translate(-50%,-50%)}
-.mascot-hero{position:absolute;width:clamp(120px,12vw,165px);right:calc(50% - 146px - 150px);bottom:40px;z-index:3;filter:drop-shadow(0 14px 18px rgba(29,42,143,.22))}
+.mascot-hero{position:absolute;width:clamp(140px,14vw,190px);right:calc(50% - 146px - clamp(140px,14vw,190px) + 26px);bottom:30px;z-index:3;filter:drop-shadow(0 14px 18px rgba(29,42,143,.22))}
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr}
   .hero h1{max-width:none;text-wrap:balance}
   .mascot-hero{right:calc(50% - 146px - 140px)}
 }
-@media (max-width:560px){.hero-stage{padding-bottom:104px}.mascot-hero{right:calc(50% - 150px);width:100px;bottom:-4px}}
+@media (max-width:560px){.hero-stage{padding-bottom:120px}.mascot-hero{right:calc(50% - 160px);width:128px;bottom:-6px}}
 
 /* ---------- Telefon-Gerät ---------- */
 .phone{position:relative;z-index:2;width:292px;aspect-ratio:9/19.3;background:#1B2240;border-radius:46px;padding:11px;box-shadow:var(--shadow-2),inset 0 0 0 2px #2E3763}
@@ -105,7 +118,7 @@ p{margin:0}
 .screen{height:100%;border-radius:36px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column;font-size:12.5px;line-height:1.4}
 .sb{display:flex;justify-content:space-between;padding:15px 24px 6px;font:600 11.5px/1 var(--f-body);color:var(--ink)}
 .appbar{display:flex;align-items:center;gap:8px;padding:12px 16px 10px;border-bottom:1px solid var(--line);background:var(--surface)}
-.appbar svg{width:22px;height:22px}
+.appbar .logo{width:22px;height:22px}
 .appbar b{font:700 14px/1.1 var(--f-head)}
 .appbar small{display:block;color:var(--ink-3);font-size:11px;margin-top:2px}
 .pill{margin-left:auto;font-size:10.5px;font-weight:600;padding:4px 8px;border-radius:99px;background:#E3F7F1;color:#0D7A5F;white-space:nowrap}
@@ -236,14 +249,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
 
 
 /* ---------- Bewegung ---------- */
-/* Pinguva lebt: blinzeln, schweben, winken, sprechen */
-.pingu-live .augen{transform-box:fill-box;transform-origin:center;animation:blinzeln 5.5s infinite}
-@keyframes blinzeln{0%,93%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.12)}}
-.pingu-live .fluegel-r{transform-box:fill-box;transform-origin:50% 12%;transform:rotate(var(--hebe,0deg));transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
-.pingu-live .blick{transform:translate(var(--bx,0px),var(--by,0px));transition:transform .15s ease-out}
-.pingu-live{rotate:var(--neig,0deg);transition:rotate .6s var(--ease-out)}
-.pingu-live.winkt .fluegel-r{animation:winken .5s ease-in-out 3 alternate}
-@keyframes winken{from{transform:rotate(0)}to{transform:rotate(-38deg)}}
+/* Pinguva lebt: schweben, sprechen */
 .anim .mascot-hero{animation:schweben 4.5s ease-in-out infinite}
 @keyframes schweben{0%,100%{translate:0 0}50%{translate:0 -7px}}
 .spricht .wellen{animation:reden .9s ease-in-out infinite}
@@ -295,7 +301,6 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
 .wl-form .btn[aria-busy="true"]{opacity:.75;pointer-events:none}
 .wl-form .btn[aria-busy="true"] .glocke{animation:glocke .7s ease-in-out infinite}
 .wl-form[hidden]{display:none}
-svg.pingu-live{overflow:visible}
 .wl-hint,.wl-msg{grid-column:1/-1;font-size:.9rem;color:var(--ink-3);margin:0}
 .wl-msg:empty{display:none}
 .wl-msg.fehler{color:var(--alarm);font-weight:500}
@@ -331,7 +336,7 @@ svg.pingu-live{overflow:visible}
 @media (max-width:520px){.darf{grid-template-columns:1fr}}
 .chatdemo{background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--shadow-2);padding:18px;display:grid;gap:14px;max-width:460px;width:100%;justify-self:center}
 .chatdemo .kopf{display:flex;align-items:center;gap:10px;font:700 1rem var(--f-head)}
-.chatdemo .kopf svg{width:26px;height:26px}
+.chatdemo .kopf .logo{width:26px;height:26px}
 .modelle{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--bg);border-radius:14px;padding:4px}
 .modelle button{all:unset;cursor:pointer;text-align:center;font-weight:600;font-size:.9rem;padding:9px 4px;border-radius:10px;color:var(--ink-2);transition:background-color .2s var(--ease-out),color .2s,box-shadow .2s}
 .modelle button[aria-checked="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-1)}
@@ -351,7 +356,7 @@ svg.pingu-live{overflow:visible}
 .vergleich{display:grid;gap:14px}
 .sprech{display:flex;gap:14px;align-items:flex-end}
 .sprech .wer{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:700 .8rem var(--f-head);background:var(--ice-2);color:var(--ink-2)}
-.sprech .wer svg{width:44px;height:44px}
+.sprech .wer .logo{width:44px;height:44px}
 .blase{padding:16px 20px;border-radius:22px 22px 22px 6px;font:600 clamp(1.05rem,1.9vw,1.3rem)/1.35 var(--f-head);letter-spacing:-.01em}
 .sprech.andere .blase{background:var(--surface);color:var(--ink-3);box-shadow:inset 0 0 0 1.5px var(--line)}
 .sprech.andere small{display:block;font:500 .8rem var(--f-body);margin-top:6px}
@@ -478,59 +483,20 @@ svg.pingu-live{overflow:visible}
 .field.voll{grid-column:1/-1}
 @media (prefers-reduced-motion:reduce){.arch-line i{display:none}}
 </style>
+<link rel="stylesheet" href="assets/eisberg.css">
+<script src="assets/eisberg.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 
-<!-- Pinguva-Figur: einmal definiert, mehrfach verwendet -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <symbol id="pingu" viewBox="0 0 200 224">
-      <ellipse cx="76" cy="212" rx="22" ry="9" fill="#FF9A3C"/>
-      <ellipse cx="124" cy="212" rx="22" ry="9" fill="#FF9A3C"/>
-      <path d="M100 22C150 22 176 72 176 127C176 182 145 210 100 210C55 210 24 182 24 127C24 72 50 22 100 22Z" fill="#3D50E8"/>
-      <ellipse cx="26" cy="140" rx="12" ry="30" transform="rotate(18 26 140)" fill="#2A37AE"/>
-      <g class="fluegel-r"><ellipse cx="174" cy="140" rx="12" ry="30" transform="rotate(-18 174 140)" fill="#2A37AE"/></g>
-      <!-- Bauch als Sprechblase: Pinguva redet -->
-      <path d="M100 116C130 116 148 136 148 160C148 184 128 200 100 200C92 200 84 199 77 196L60 204L66 189C56 180 52 170 52 160C52 136 70 116 100 116Z" fill="#F4F7FF"/>
-      <ellipse cx="100" cy="86" rx="46" ry="33" fill="#FFFFFF"/>
-      <g class="augen"><g class="blick">
-      <circle cx="83" cy="83" r="7.5" fill="#16204A"/>
-      <circle cx="117" cy="83" r="7.5" fill="#16204A"/>
-      <circle cx="85.5" cy="80.5" r="2.4" fill="#fff"/>
-      <circle cx="119.5" cy="80.5" r="2.4" fill="#fff"/>
-      </g></g>
-      <ellipse cx="70" cy="98" rx="7" ry="4" fill="#FF8FA8" opacity=".55"/>
-      <ellipse cx="130" cy="98" rx="7" ry="4" fill="#FF8FA8" opacity=".55"/>
-      <path d="M91 96Q100 91 109 96Q100 110 91 96Z" fill="#FF9A3C"/>
-      <!-- Headset: Pinguva geht ans Telefon -->
-      <path d="M40 76C40 18 160 18 160 76" fill="none" stroke="#22C29A" stroke-width="9" stroke-linecap="round"/>
-      <rect x="28" y="64" width="20" height="32" rx="9" fill="#22C29A"/>
-      <rect x="152" y="64" width="20" height="32" rx="9" fill="#22C29A"/>
-      <path d="M38 94C38 116 52 124 70 121" fill="none" stroke="#1BA784" stroke-width="5" stroke-linecap="round"/>
-      <circle cx="73" cy="120.5" r="6" fill="#16204A"/>
-      <g class="wellen" opacity="0" fill="none" stroke="#22C29A" stroke-width="3.5" stroke-linecap="round"><path class="w1" d="M84 114q5 6.5 0 13"/><path class="w2" d="M92 109q9 11.5 0 23"/></g>
-      <!-- Eislocke -->
-      <path d="M92 26Q98 12 106 20Q110 10 116 18" fill="none" stroke="#2A37AE" stroke-width="5" stroke-linecap="round"/>
-    </symbol>
-    <symbol id="mark" viewBox="0 0 40 40">
-      <circle cx="20" cy="21" r="17" fill="#3D50E8"/>
-      <ellipse cx="20" cy="21" rx="11" ry="8.5" fill="#fff"/>
-      <circle cx="16" cy="20" r="2" fill="#16204A"/>
-      <circle cx="24" cy="20" r="2" fill="#16204A"/>
-      <path d="M18 24q2-1.2 4 0q-2 3.2-4 0z" fill="#FF9A3C"/>
-      <path d="M6 20a14 14 0 0 1 28 0" fill="none" stroke="#22C29A" stroke-width="3" stroke-linecap="round"/>
-    </symbol>
-  </defs>
-</svg>
-
 <header class="top" id="top">
   <div class="wrap nav">
-    <a class="brand" href="#top" aria-label="Pinguva Startseite"><svg aria-hidden="true"><use href="#mark"/></svg>Pinguva</a>
+    <a class="brand" href="#top" aria-label="Pinguva Startseite"><img class="logo" src="assets/logo-64.webp" alt="" width="64" height="64" decoding="async">Pinguva</a>
     <a class="link" href="#funktionen">Funktionen</a>
     <a class="link" href="#lokal">Lokale KI</a>
     <a class="link" href="#branchen">Branchen</a>
     <a class="link" href="#pakete">Pakete</a>
+    <a class="link" href="download/">Download</a>
     <a class="btn btn-primary btn-small" href="#warteliste">Warteliste beitreten</a>
   </div>
 </header>
@@ -558,7 +524,7 @@ svg.pingu-live{overflow:visible}
         <div class="screen" aria-hidden="true">
           <div class="sb"><span>09:12</span><span>●●● 5G</span></div>
           <div class="appbar">
-            <svg><use href="#mark"/></svg>
+            <img class="logo" src="assets/logo-64.webp" alt="" width="64" height="64" decoding="async">
             <div><b>Live-Gespräch</b><small>Leitung offen</small></div>
             <span class="pill">läuft</span>
           </div>
@@ -575,7 +541,7 @@ svg.pingu-live{overflow:visible}
           </div>
         </div>
       </div>
-      <svg class="mascot-hero" data-pingu aria-hidden="true"><use href="#pingu"/></svg>
+      <div class="eisberg mascot-hero" data-eisberg aria-hidden="true"></div>
     </div>
   </div>
 </section>
@@ -593,7 +559,7 @@ svg.pingu-live{overflow:visible}
     </div>
     <div class="vergleich rv">
       <div class="sprech andere"><span class="wer">KI</span><div class="blase">Guten Tag, wie kann ich Ihnen behilflich sein?<small>So klingen die meisten KI-Assistenten</small></div></div>
-      <div class="sprech pv"><span class="wer"><svg aria-hidden="true"><use href="#mark"/></svg></span><div class="blase">Grüezi mitenand, do isch Pinguva. Wie chan ich Ihne hälfe?<small>So klingt Pinguva</small></div></div>
+      <div class="sprech pv"><span class="wer"><img class="logo" src="assets/logo-64.webp" alt="" width="64" height="64" decoding="async"></span><div class="blase">Grüezi mitenand, do isch Pinguva. Wie chan ich Ihne hälfe?<small>So klingt Pinguva</small></div></div>
     </div>
   </div>
 </section>
@@ -667,7 +633,7 @@ svg.pingu-live{overflow:visible}
           <div class="sb" aria-hidden="true"><span>10:30</span><span>●●● 5G</span></div>
 
           <div class="panel" role="tabpanel" id="p-gespraech" aria-labelledby="t-gespraech" style="display:flex;flex-direction:column;flex:1">
-            <div class="appbar"><svg aria-hidden="true"><use href="#mark"/></svg><div><b>Live-Gespräch</b><small>Anruf von 079 ••• •• 18</small></div><span class="pill">läuft</span></div>
+            <div class="appbar"><img class="logo" src="assets/logo-64.webp" alt="" width="64" height="64" decoding="async"><div><b>Live-Gespräch</b><small>Anruf von 079 ••• •• 18</small></div><span class="pill">läuft</span></div>
             <div class="scr-body">
               <div class="who">Anrufer</div>
               <div class="msg caller">Ich sött min Termin am Friitig verschiebe, gaht das?<span class="tr">Übersetzt: Ich sollte meinen Termin am Freitag verschieben, geht das?</span></div>
@@ -679,7 +645,7 @@ svg.pingu-live{overflow:visible}
           </div>
 
           <div class="panel" role="tabpanel" id="p-ausgang" aria-labelledby="t-ausgang" hidden style="flex-direction:column;flex:1">
-            <div class="appbar"><svg aria-hidden="true"><use href="#mark"/></svg><div><b>Ausgang</b><small>1 Entwurf wartet</small></div><span class="pill wait">Freigabe</span></div>
+            <div class="appbar"><img class="logo" src="assets/logo-64.webp" alt="" width="64" height="64" decoding="async"><div><b>Ausgang</b><small>1 Entwurf wartet</small></div><span class="pill wait">Freigabe</span></div>
             <div class="scr-body">
               <div class="mail"><div class="from"><span>R. Brunner</span><span>09:58</span></div><h4>Termin nächste Woche?</h4><p class="muted">Guten Tag, hätten Sie nächste Woche einen Termin für eine Kontrolle frei?</p></div>
               <div class="draft"><em>Entwurf von Pinguva</em>Guten Tag Herr Brunner<br><br>Gerne können wir Ihnen am Dienstag, 29. September, um 10:15 Uhr einen Termin anbieten. Bitte bestätigen Sie kurz, ob Ihnen das passt.<br><br>Freundliche Grüsse<br>Ihr Team</div>
@@ -688,7 +654,7 @@ svg.pingu-live{overflow:visible}
           </div>
 
           <div class="panel" role="tabpanel" id="p-wissen" aria-labelledby="t-wissen" hidden style="flex-direction:column;flex:1">
-            <div class="appbar"><svg aria-hidden="true"><use href="#mark"/></svg><div><b>Wissensbasis</b><small>Nur offizielle Quellen</small></div></div>
+            <div class="appbar"><img class="logo" src="assets/logo-64.webp" alt="" width="64" height="64" decoding="async"><div><b>Wissensbasis</b><small>Nur offizielle Quellen</small></div></div>
             <div class="scr-body">
               <div class="ask">Wem empfiehlt das BAG die Grippeimpfung?</div>
               <div class="answer">Laut BAG wird die Grippeimpfung unter anderem Personen ab 65 Jahren empfohlen <sup>[1]</sup>.</div>
@@ -749,7 +715,7 @@ svg.pingu-live{overflow:visible}
     </div>
 
     <div class="chatdemo rv" aria-label="Beispiel: Modellwahl im KI-Chat">
-      <div class="kopf"><svg aria-hidden="true"><use href="#mark"/></svg>KI-Chat</div>
+      <div class="kopf"><img class="logo" src="assets/logo-64.webp" alt="" width="64" height="64" decoding="async">KI-Chat</div>
       <div class="modelle" role="radiogroup" aria-label="Modell wählen">
         <button role="radio" aria-checked="true" data-modell="lokal">Lokal</button>
         <button role="radio" aria-checked="false" tabindex="-1" data-modell="ChatGPT">ChatGPT</button>
@@ -851,7 +817,7 @@ svg.pingu-live{overflow:visible}
 <section id="warteliste" aria-labelledby="h-dl" style="padding-top:0">
   <div class="wrap">
     <div class="dl rv" id="wlBox">
-      <svg class="mascot" data-pingu aria-hidden="true"><use href="#pingu"/></svg>
+      <div class="eisberg mascot" data-eisberg aria-hidden="true"></div>
       <div>
         <span class="early">Early Access</span>
         <h2 id="h-dl">Auf die Liste – und früh testen</h2>
@@ -914,10 +880,11 @@ svg.pingu-live{overflow:visible}
 <footer>
   <div class="wrap foot">
     <div>
-      <a class="brand" href="#top"><svg aria-hidden="true"><use href="#mark"/></svg>Pinguva</a>
+      <a class="brand" href="#top"><img class="logo" src="assets/logo-64.webp" alt="" width="64" height="64" decoding="async">Pinguva</a>
       <small>© <span id="jahr">2026</span> Pinguva. Die KI-Assistenz, die in Ihrer Firma bleibt.</small>
     </div>
     <nav aria-label="Rechtliches">
+      <a href="download/">Download</a>
       <a href="impressum.html#kontakt">Kontakt</a>
       <a href="datenschutz.html">Datenschutz</a>
       <a href="impressum.html">Impressum</a>
@@ -967,24 +934,6 @@ const PINGUVA_STATISTIK = { goatcounter: "" };   // <-- STATISTIK-CODE HIER EINT
 function zaehleEreignis(name){
   try { window.goatcounter && window.goatcounter.count && window.goatcounter.count({ path: name, title: name, event: true }); } catch (e) {}
 }
-
-/* Pinguva-Figuren lebendig machen: Symbol direkt einsetzen */
-(function(){
-  const sym = document.getElementById("pingu");
-  document.querySelectorAll("svg[data-pingu]").forEach(svg => {
-    svg.setAttribute("viewBox", sym.getAttribute("viewBox"));
-    svg.innerHTML = sym.innerHTML;
-    svg.classList.add("pingu-live");
-    const winken = () => {
-      if (!ANIM || svg.classList.contains("winkt")) return;
-      svg.classList.add("winkt");
-      setTimeout(() => svg.classList.remove("winkt"), 1600);
-    };
-    svg.addEventListener("mouseenter", winken);
-    svg.addEventListener("click", winken);
-    svg._winken = winken;
-  });
-})();
 
 /* Warteliste */
 (function(){
@@ -1135,49 +1084,6 @@ function zaehleEreignis(name){
 })();
 
 
-
-/* Pinguin schaut dem Zeiger nach und hebt die Flosse, wenn man nah kommt */
-(function(){
-  const figuren = [...document.querySelectorAll("svg.pingu-live")];
-  if (!figuren.length) return;
-  let ziel = null, geplant = false;
-
-  function schauen(x, y){
-    figuren.forEach(svg => {
-      const r = svg.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > innerHeight + 200) return;   // nicht sichtbar
-      const ax = r.left + r.width * .5, ay = r.top + r.height * (83 / 224);   // Augenhöhe
-      const dx = x - ax, dy = y - ay, dist = Math.hypot(dx, dy) || 1;
-      const f = Math.min(dist / 220, 1);
-      svg.style.setProperty("--bx", (dx / dist * 5.5 * f).toFixed(2) + "px");
-      svg.style.setProperty("--by", (dy / dist * 4 * f).toFixed(2) + "px");
-      if (ANIM) {
-        svg.style.setProperty("--neig", Math.max(-5, Math.min(5, dx / 90)).toFixed(2) + "deg");
-        const nah = dist < r.width * 1.6;
-        svg.style.setProperty("--hebe", nah ? (dy < 0 ? "-55deg" : "-30deg") : "0deg");
-      }
-    });
-  }
-  function takt(){ geplant = false; if (ziel) schauen(ziel.x, ziel.y); }
-  function setze(x, y){ ziel = { x, y }; if (!geplant) { geplant = true; requestAnimationFrame(takt); } }
-
-  addEventListener("pointermove", e => setze(e.clientX, e.clientY), { passive: true });
-  addEventListener("pointerdown", e => setze(e.clientX, e.clientY), { passive: true });
-  addEventListener("scroll", () => { if (ziel) setze(ziel.x, ziel.y); }, { passive: true });
-  document.documentElement.addEventListener("pointerleave", () => {
-    ziel = null;
-    figuren.forEach(svg => ["--bx", "--by", "--neig", "--hebe"].forEach(v => svg.style.removeProperty(v)));
-  });
-
-  // Beim Ausfüllen schaut der Pinguin aufs Feld
-  document.getElementById("wlForm").addEventListener("focusin", e => {
-    const r = e.target.getBoundingClientRect();
-    setze(r.left + Math.min(r.width, 160) * .5, r.top + r.height / 2);
-  });
-  // Ohne Maus: am Anfang schaut der Pinguin aufs Gespräch im Handy
-  const phone = document.querySelector(".hero-stage .phone");
-  if (phone) { const r = phone.getBoundingClientRect(); schauen(r.left + r.width * .4, r.top + r.height * .45); }
-})();
 
 /* KI-Chat: Modellwahl (Beispiel) */
 (function(){
