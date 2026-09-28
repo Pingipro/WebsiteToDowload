@@ -1,13 +1,10 @@
-/* Pinguva-Eisberg
-   Der Pinguin erledigt eine Aufgabe, rutscht den Eisberg hinunter und platscht
-   ins Wasser. Danach kommt „Easy work with Pinguva“ – und alles beginnt von vorn.
-   Einbauen: <div class="eisberg" data-eisberg aria-hidden="true"></div>
-   Ohne Bewegung (prefers-reduced-motion) steht der Pinguin still auf dem Eisberg. */
+// Pinguin auf dem Eisberg: erledigt was, rutscht runter, platsch, "Easy work with Pinguva", von vorn.
+// <div class="eisberg" data-eisberg></div>
 (function(){
   const NS = "http://www.w3.org/2000/svg";
   const RUHIG = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const AUFGABEN = ["Anruf angenommen", "Termin gebucht", "E-Mail vorbereitet"];
-  const SPITZE = [120, 117];            // wo die Füsse auf dem Eisberg stehen
+  const SPITZE = [120, 117]; // Füsse auf der Spitze
 
   const PINGU = `
     <ellipse cx="76" cy="212" rx="22" ry="9" fill="#FF9A3C"/>
@@ -81,7 +78,7 @@
   const pos = (x, y, a = 0) => `translate(${x}px, ${y}px) rotate(${a}deg)`;
   const pause = ms => new Promise(r => setTimeout(r, ms));
 
-  // Wege den Eisberg hinunter: [x, y, Drehung, Zeitpunkt 0–1]
+  // [x, y, Winkel, Zeitpunkt]
   const WEGE = [
     { name: "rechts", dauer: 1500, spritzer: [198, 192], weg: [
       [120,117,0,0],[124,117,-28,.12],[150,141,-45,.42],[160,129,-30,.55],[176,160,-48,.72],[198,206,-55,1]] },
@@ -127,7 +124,7 @@
     text.textContent = AUFGABEN[1];
     if (RUHIG) { blase.style.opacity = 1; return; }
 
-    // Nur laufen, wenn sichtbar
+    // pausieren, wenn nicht sichtbar
     let sichtbar = false, wecker = null;
     const aufwachen = () => { if (sichtbar && !document.hidden && wecker) { wecker(); wecker = null; } };
     new IntersectionObserver(([e]) => { sichtbar = e.isIntersecting; aufwachen(); }).observe(el);
@@ -169,7 +166,7 @@
       await pause(700);
       for (;;) {
         const weg = WEGE[n % WEGE.length];
-        // 1. Aufgabe erledigt – Sprechblase
+        // Sprechblase
         await bereit();
         text.textContent = AUFGABEN[n % AUFGABEN.length];
         el.classList.add("eb-redet");
@@ -180,26 +177,25 @@
         await pause(900);
         bewege(blase, [{ opacity: 1 }, { opacity: 0 }], { duration: 300 });
         await pause(250);
-        // 2. Hinunterrutschen
+        // runterrutschen
         aufSpitze = false;
         el.classList.remove("eb-winkt");
         await bewege(reiter, weg.weg.map(([x, y, a, o]) => ({ transform: pos(x, y, a), offset: o })),
           { duration: weg.dauer, easing: "cubic-bezier(.45,.05,.8,.6)" });
-        // 3. Platsch!
+        // platsch
         const [sx, sy] = weg.spritzer;
         const [lx, ly, la] = weg.weg[weg.weg.length - 1];
         bewege(reiter, [{ transform: pos(lx, ly, la) }, { transform: pos(lx, ly + 40, la) }], { duration: 300, easing: "ease-in" });
         await platsch(sx, sy);
         await pause(250);
-        // 4. „Easy work with Pinguva“
+        // Karte
         await bereit();
         await bewege(karte, [{ opacity: 0, transform: "scale(.92)" }, { opacity: 1, transform: "scale(1)" }], { duration: 450, easing: "cubic-bezier(.23,1,.32,1)" });
         await pause(2300);
-        // Pinguin taucht unsichtbar links wieder auf
         reiter.getAnimations().forEach(a => a.cancel());
         reiter.style.transform = pos(58, 240);
         await bewege(karte, [{ opacity: 1 }, { opacity: 0 }], { duration: 400, easing: "ease-in" });
-        // 5. Auftauchen und zurück auf den Eisberg hüpfen
+        // links auftauchen und zurück nach oben
         await bewege(reiter, [{ transform: pos(58, 240) }, { transform: pos(58, 202) }], { duration: 450, easing: "ease-out" });
         await pause(350);
         await bewege(reiter, [
