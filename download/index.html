@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pinguva für Windows — Testversion 1.0.0</title>
 <meta name="description" content="Pinguva für Windows herunterladen und testen. Testversion 1.0.0 für Windows 10 und 11. Ihre Firmen- und Patientendaten bleiben auf Ihrem Rechner.">
-<meta name="theme-color" content="#3D50E8">
+<meta name="theme-color" content="#EDEDEF">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pinguva">
 <meta property="og:title" content="Pinguva für Windows — Testversion 1.0.0">
@@ -108,13 +108,14 @@ footer{padding:36px 0 48px;border-top:1px solid var(--line);margin-top:24px}
 .foot nav{display:flex;flex-wrap:wrap;gap:8px 24px}
 .foot nav a{color:var(--ink-2);text-decoration:none}
 </style>
+<link rel="stylesheet" href="../assets/design.css">
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 
-<header><div class="wrap nav">
+<header class="top"><div class="wrap nav">
   <a class="brand" href="../"><img class="logo" src="../assets/logo-64.webp" alt="" width="64" height="64" decoding="async">Pinguva</a>
-  <a class="zurueck" href="../">Zur Startseite</a>
+  <a class="btn btn-weiss btn-small" href="../">Zur Startseite</a>
 </div></header>
 
 <main id="inhalt">
@@ -125,14 +126,15 @@ footer{padding:36px 0 48px;border-top:1px solid var(--line);margin-top:24px}
   Neue Version? Hier die zwei Links und die Prüfsummen anpassen.
   ================================================================
 -->
-<section class="kopf">
+<section class="kopf seite-kopf">
+  <span class="ghost" aria-hidden="true">Download</span>
   <div class="wrap kopf-grid">
     <div>
       <span class="test">Testversion</span>
       <h1>Pinguva für Windows — Testversion 1.0.0</h1>
       <p class="lead">Pinguva arbeitet mit Ihrer eigenen Datenbank, Ihrer Praxissoftware und Ihren Kalendern. Ihre Daten bleiben dabei auf Ihrem Rechner.</p>
       <div class="laden">
-        <a class="btn btn-primary" id="dlSetup" href="https://github.com/Pingipro/pinguva-download/releases/download/v1.0.0/Pinguva-Setup-1.0.0.exe" download>
+        <a class="btn btn-dl" id="dlSetup" href="https://github.com/Pingipro/pinguva-download/releases/download/v1.0.0/Pinguva-Setup-1.0.0.exe" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
           Pinguva herunterladen (Windows, 88 MB)
         </a>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pinguva – die KI-Assistenz, die in Ihrer Firma bleibt</title>
 <meta name="description" content="Pinguva geht für Ihre Firma ans Telefon, versteht Schweizerdeutsch, vergibt Termine und bereitet E-Mails vor. Die KI läuft lokal auf Ihrem eigenen Rechner.">
-<meta name="theme-color" content="#3D50E8">
+<meta name="theme-color" content="#EDEDEF">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pinguva">
 <meta property="og:title" content="Pinguva – die KI-Assistenz, die in Ihrer Firma bleibt">
@@ -485,8 +485,9 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
 </style>
 <link rel="stylesheet" href="assets/eisberg.css">
 <script src="assets/eisberg.js" defer></script>
+<link rel="stylesheet" href="assets/design.css">
 </head>
-<body>
+<body class="start">
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 
 <header class="top" id="top">
@@ -496,8 +497,9 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
     <a class="link" href="#lokal">Lokale KI</a>
     <a class="link" href="#branchen">Branchen</a>
     <a class="link" href="#pakete">Pakete</a>
-    <a class="link" href="download/">Download</a>
-    <a class="btn btn-primary btn-small" href="#warteliste">Warteliste beitreten</a>
+    <a class="link" href="#warteliste">Warteliste</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="top">Menü</button>
+    <a class="btn btn-weiss btn-small" href="download/">Download</a>
   </div>
 </header>
 
@@ -505,12 +507,13 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
 
 <!-- ============ Begrüssung ============ -->
 <section class="hero" aria-labelledby="h-hero">
+  <span class="ghost" aria-hidden="true">Pinguva</span>
   <div class="wrap hero-grid">
     <div>
       <h1 id="h-hero">Pinguva – die KI-Assistenz, die in Ihrer Firma bleibt</h1>
       <p class="lead">Pinguva geht für Sie ans Telefon, versteht und spricht Schweizerdeutsch, vergibt Termine und bereitet E-Mails vor. Die KI dahinter läuft auf Ihrem eigenen Rechner – Ihre Gespräche verlassen das Haus nicht.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://github.com/Pingipro/pinguva-download/releases/download/v1.0.0/Pinguva-Setup-1.0.0.exe" download>
+        <a class="btn btn-dl" href="https://github.com/Pingipro/pinguva-download/releases/download/v1.0.0/Pinguva-Setup-1.0.0.exe" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
           Pinguva herunterladen
         </a>
@@ -580,7 +583,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
 </section>
 
 <!-- ============ Funktionen ============ -->
-<section id="funktionen" aria-labelledby="h-fn" style="padding-top:0">
+<section id="funktionen" class="band" aria-labelledby="h-fn">
   <div class="wrap">
     <div class="sec-head rv">
       <h2 id="h-fn">So läuft ein Anruf mit Pinguva</h2>
@@ -702,7 +705,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
 </section>
 
 <!-- ============ Cloud-Modelle im Chat ============ -->
-<section id="cloud-chat" aria-labelledby="h-cloud" style="padding-top:0">
+<section id="cloud-chat" class="band" aria-labelledby="h-cloud">
   <div class="wrap cloud">
     <div class="rv">
       <h2 id="h-cloud">Lieber ChatGPT, Claude oder Gemini? Geht auch.</h2>
@@ -750,7 +753,7 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
 </section>
 
 <!-- ============ Branchen ============ -->
-<section id="branchen" aria-labelledby="h-br" style="padding-top:0">
+<section id="branchen" class="band" aria-labelledby="h-br">
   <div class="wrap">
     <div class="sec-head rv">
       <h2 id="h-br">Für jede Firma, bei der das Telefon zählt</h2>
@@ -769,7 +772,8 @@ footer{padding:48px 0 56px;border-top:1px solid var(--line);margin-top:40px}
 </section>
 
 <!-- ============ Pakete ============ -->
-<section id="pakete" aria-labelledby="h-pk" style="padding-top:0">
+<section id="pakete" class="dunkel" aria-labelledby="h-pk">
+  <span class="ghost" aria-hidden="true">Pakete</span>
   <div class="wrap">
     <div class="sec-head rv">
       <h2 id="h-pk">Zwei Pakete, ein Ziel</h2>
@@ -991,6 +995,16 @@ function zaehleEreignis(name){
       btn.querySelector("span").textContent = "Warteliste beitreten";
     }
   });
+})();
+
+/* Menü auf dem Handy */
+(function(){
+  const top = document.getElementById("top");
+  const knopf = top.querySelector(".menu-btn");
+  const setze = offen => { top.classList.toggle("offen", offen); knopf.setAttribute("aria-expanded", offen); knopf.textContent = offen ? "Schliessen" : "Menü"; };
+  knopf.addEventListener("click", () => setze(!top.classList.contains("offen")));
+  top.querySelectorAll("a.link").forEach(a => a.addEventListener("click", () => setze(false)));
+  addEventListener("keydown", e => { if (e.key === "Escape") setze(false); });
 })();
 
 /* Kopfzeile: Linie erst beim Scrollen */
