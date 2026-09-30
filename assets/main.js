@@ -92,7 +92,6 @@ function zaehle(name) {
   const setze = offen => {
     top.classList.toggle("offen", offen);
     knopf.setAttribute("aria-expanded", offen);
-    knopf.textContent = offen ? "Schliessen" : "Menü";
   };
   knopf.addEventListener("click", () => setze(!top.classList.contains("offen")));
   top.querySelectorAll("a.link").forEach(a => a.addEventListener("click", () => setze(false)));
