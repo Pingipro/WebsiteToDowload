@@ -1,9 +1,5 @@
 // Startseite
 
-// Wohin die Anmeldungen der Warteliste gehen, z. B. "https://formspree.io/f/xxxx".
-// Leer = es wird nichts gespeichert (die Seite sagt das dann auch).
-const WARTELISTE_URL = "";
-
 // GoatCounter-Code (ohne Cookies). Leer = keine Statistik.
 const GOATCOUNTER = "";
 
@@ -16,74 +12,6 @@ if (GOATCOUNTER) {
   sc.dataset.goatcounter = "https://" + GOATCOUNTER + ".goatcounter.com/count";
   document.body.appendChild(sc);
 }
-
-function zaehle(name) {
-  try { window.goatcounter?.count?.({ path: name, title: name, event: true }); } catch (e) {}
-}
-
-// Warteliste
-(function () {
-  const form = document.getElementById("wlForm");
-  const mail = document.getElementById("wl-mail");
-  const early = document.getElementById("wl-early");
-  const btn = document.getElementById("wlButton");
-  const msg = document.getElementById("wlMsg");
-  const done = document.getElementById("wlDone");
-  const box = document.getElementById("wlBox");
-  const figur = box.querySelector(".mascot");
-  const gueltig = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
-
-  mail.addEventListener("input", () => {
-    if (mail.getAttribute("aria-invalid") === "true" && gueltig(mail.value.trim())) {
-      mail.removeAttribute("aria-invalid");
-      msg.textContent = "";
-      msg.classList.remove("fehler");
-    }
-  });
-
-  function fehler(text, feld) {
-    msg.textContent = text;
-    msg.classList.add("fehler");
-    if (!feld) return;
-    feld.setAttribute("aria-invalid", "true");
-    feld.focus();
-    const f = feld.closest(".field");
-    f.classList.remove("wackeln");
-    void f.offsetWidth;
-    f.classList.add("wackeln");
-  }
-
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-    msg.textContent = "";
-    msg.classList.remove("fehler");
-    if (form._gotcha.value) return; // Bot
-    if (!gueltig(mail.value.trim())) return fehler("Bitte geben Sie eine gültige E-Mail-Adresse ein.", mail);
-    if (!WARTELISTE_URL) {
-      console.warn("WARTELISTE_URL ist leer, nichts gespeichert");
-      return fehler("Die Anmeldung ist noch nicht freigeschaltet. Bitte versuchen Sie es in ein paar Tagen wieder.");
-    }
-
-    btn.setAttribute("aria-busy", "true");
-    btn.querySelector("span").textContent = "Wird eingetragen …";
-    try {
-      const r = await fetch(WARTELISTE_URL, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) });
-      if (!r.ok) throw new Error(r.status);
-      form.hidden = true;
-      if (early.checked) document.getElementById("wlDoneText").textContent = "Für den Early Access melden wir uns per E-Mail bei Ihnen.";
-      done.hidden = false;
-      done.focus();
-      zaehle(early.checked ? "warteliste-early-access" : "warteliste");
-      box.classList.add("erfolg");
-      figur._winken?.();
-    } catch (err) {
-      fehler("Das hat nicht geklappt. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es nochmals.");
-    } finally {
-      btn.removeAttribute("aria-busy");
-      btn.querySelector("span").textContent = "Warteliste beitreten";
-    }
-  });
-})();
 
 // Menü auf dem Handy, Logo führt nach oben
 (function () {
@@ -143,20 +71,6 @@ function zaehle(name) {
   lauf();
 })();
 
-// Handy kippt leicht zur Maus
-(function () {
-  if (!ANIM || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-  const stage = document.querySelector(".hero-stage");
-  const phone = stage.querySelector(".phone");
-  stage.addEventListener("pointermove", e => {
-    const r = stage.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - .5;
-    const y = (e.clientY - r.top) / r.height - .5;
-    phone.style.transform = `perspective(1000px) rotateY(${x * 10}deg) rotateX(${-y * 8}deg)`;
-  });
-  stage.addEventListener("pointerleave", () => { phone.style.transform = ""; });
-})();
-
 // Einblenden beim Scrollen
 (function () {
   if (!ANIM) return;
@@ -174,6 +88,85 @@ function zaehle(name) {
     io.unobserve(en.target);
   }), { rootMargin: "0px 0px -10% 0px", threshold: .12 });
   ziele.forEach(el => io.observe(el));
+})();
+
+// Kopfzeile bekommt beim Scrollen Unschärfe und Schatten
+(function () {
+  const top = document.getElementById("top");
+  let geplant = false;
+  const pruefe = () => {
+    geplant = false;
+    top.classList.toggle("gescrollt", scrollY > 8);
+  };
+  addEventListener("scroll", () => {
+    if (!geplant) { geplant = true; requestAnimationFrame(pruefe); }
+  }, { passive: true });
+  pruefe();
+})();
+
+// Handys kippen leicht zur Maus, das obere wandert beim Scrollen etwas mit
+(function () {
+  if (!ANIM) return;
+  const handys = [...document.querySelectorAll(".phone")];
+  const hero = document.querySelector(".hero-stage .phone");
+  const maus = matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  if (maus) {
+    for (const phone of handys) {
+      const flaeche = phone.parentElement;
+      flaeche.addEventListener("pointermove", e => {
+        const r = flaeche.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;
+        const y = (e.clientY - r.top) / r.height - .5;
+        phone.style.setProperty("--ry", (x * 10).toFixed(2) + "deg");
+        phone.style.setProperty("--rx", (-y * 8).toFixed(2) + "deg");
+      });
+      flaeche.addEventListener("pointerleave", () => {
+        phone.style.removeProperty("--rx");
+        phone.style.removeProperty("--ry");
+      });
+    }
+  }
+
+  if (hero) {
+    let geplant = false;
+    const verschiebe = () => {
+      geplant = false;
+      const y = Math.min(scrollY, innerHeight);
+      hero.style.setProperty("--py", (y * -0.06).toFixed(1) + "px");
+    };
+    addEventListener("scroll", () => {
+      if (!geplant) { geplant = true; requestAnimationFrame(verschiebe); }
+    }, { passive: true });
+  }
+})();
+
+// Zahlen zählen hoch, sobald sie sichtbar werden
+(function () {
+  const zahlen = document.querySelectorAll("[data-zahl]");
+  if (!ANIM || !zahlen.length || !("IntersectionObserver" in window)) return;
+  const dauer = 1400;
+  const weich = t => 1 - Math.pow(1 - t, 4);
+
+  const io = new IntersectionObserver(eintraege => eintraege.forEach(en => {
+    if (!en.isIntersecting) return;
+    io.unobserve(en.target);
+    const el = en.target;
+    const ziel = Number(el.dataset.zahl);
+    const start = performance.now();
+    const schritt = jetzt => {
+      const t = Math.min((jetzt - start) / dauer, 1);
+      el.textContent = Math.round(ziel * weich(t));
+      if (t < 1) requestAnimationFrame(schritt);
+    };
+    requestAnimationFrame(schritt);
+  }), { threshold: .6 });
+
+  zahlen.forEach(el => {
+    el.style.width = el.dataset.zahl.length + "ch";
+    el.textContent = "0";
+    io.observe(el);
+  });
 })();
 
 // Pfeiltasten zwischen Tabs oder Radio-Knöpfen

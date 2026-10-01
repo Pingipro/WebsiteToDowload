@@ -28,16 +28,16 @@
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 
-<header class="top" id="top">
+<header class="top" id="top" data-scroll>
   <div class="wrap nav">
     <a class="brand" href="#top" aria-label="Pinguva Startseite"><img class="logo" src="assets/logo-64.webp" alt="" width="64" height="64" decoding="async">Pinguva</a>
     <a class="link" href="#funktionen">Funktionen</a>
     <a class="link" href="#lokal">Lokale KI</a>
     <a class="link" href="#branchen">Branchen</a>
     <a class="link" href="#pakete">Pakete</a>
-    <a class="link" href="#warteliste">Warteliste</a>
+    <a class="link" href="#fragen">Fragen</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="top">Menü</button>
-    <a class="btn btn-primary btn-small" href="download/">Download</a>
+    <a class="btn btn-primary btn-small" href="#download">Download</a>
   </div>
 </header>
 
@@ -54,9 +54,9 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
           Pinguva herunterladen
         </a>
-        <a class="btn btn-ghost" href="#warteliste">Warteliste beitreten</a>
+        <a class="portable-link" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-portable.exe" download>Portable-Version</a>
       </div>
-      <p class="hero-note">Testversion 1.3.3 für Windows 10 und 11 · 170 MB · <a href="download/">Anleitung und Hinweise</a></p>
+      <p class="hero-note">Version 1.3.3 für Windows 10 und 11 · 170 MB · <a href="#download">Prüfsummen und Hinweise</a></p>
     </div>
 
     <div class="hero-stage">
@@ -128,7 +128,7 @@
     </div>
     <ol class="flow">
       <li><h3>Abnehmen</h3><p>Pinguva nimmt den Anruf an Ihrer Nummer selbst an und begrüsst die anrufende Person.</p></li>
-      <li><h3>Verstehen</h3><p>Pinguva versteht Mundart – über 240 Wendungen kennt es schon – und antwortet auf Schweizerdeutsch.</p></li>
+      <li><h3>Verstehen</h3><p>Pinguva versteht Mundart – über <span data-zahl="240">240</span> Wendungen kennt es schon – und antwortet auf Schweizerdeutsch.</p></li>
       <li><h3>Einordnen</h3><p>Pinguva erkennt das Anliegen: Termin, Rückruf, Frage oder neue Adresse. Dringliches ordnen feste Regeln ein.</p></li>
       <li><h3>Erledigen</h3><p>Termin buchen, verschieben oder absagen, Rückruf notieren, Kundendaten anlegen oder ändern.</p></li>
       <li><h3>Übergeben</h3><p>Jede Änderung steht im Protokoll und landet als Aufgabe bei Ihrem Team.</p></li>
@@ -303,7 +303,7 @@
       <div class="branche rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4z"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/><path d="M4 12h16"/></svg></span><h3>Garagen und Werkstätten</h3><p>Serviceanfragen und Rückrufwünsche aufnehmen, Termine vergeben.</p><span class="st">In Vorbereitung</span></div>
       <div class="branche rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4l6 6-3 3-6-6z"/><path d="M11 7 4 14l3 3 7-7"/></svg></span><h3>Handwerk</h3><p>Erreichbar sein, auch wenn alle auf der Baustelle sind.</p><span class="st">In Vorbereitung</span></div>
       <div class="branche rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><h3>Treuhand und Büros</h3><p>Öffnungszeiten, Rückrufe und E-Mail-Entwürfe für Ihre Kundschaft.</p><span class="st">In Vorbereitung</span></div>
-      <div class="branche frei rv"><h3>Ihre Branche fehlt?</h3><p>Sagen Sie uns auf der Warteliste, wofür Sie Pinguva brauchen.</p><a href="#warteliste">Zur Warteliste</a></div>
+      <div class="branche frei rv"><h3>Ihre Branche fehlt?</h3><p>Schreiben Sie uns, wofür Sie Pinguva brauchen.</p><a href="mailto:info@pinguva.ch">info@pinguva.ch</a></div>
     </div>
   </div>
 </section>
@@ -323,7 +323,7 @@
         <p class="preis">Preis folgt<small>Wird bekannt gegeben, sobald Pinguva startet.</small></p>
         <ul><li>Telefon-KI mit festen Abläufen</li><li>Termine, Rückrufe und Ansagen</li><li>Mundart verstehen und sprechen</li><li>Lokale Stimme und Spracherkennung</li><li>Rollen, Rechte und Protokoll</li></ul>
         <p class="hw">Läuft auf einem normalen Windows-Büro-PC. Keine Grafikkarte nötig.</p>
-        <a class="btn btn-ghost" href="#warteliste">Warteliste beitreten</a>
+        <a class="btn btn-ghost" href="#download">Kostenlos testen</a>
       </div>
       <div class="paket plus rv">
         <span class="badge">Mit Sprachmodell</span>
@@ -332,7 +332,7 @@
         <p class="preis">Preis folgt<small>Wird bekannt gegeben, sobald Pinguva startet.</small></p>
         <ul><li>Alles aus Basis</li><li>Freie Gespräche statt fester Sätze</li><li>KI-Assistent und Zusammenfassungen</li><li>E-Mail-Entwürfe mit Freigabe</li><li>Wissensbasis mit Belegen</li></ul>
         <p class="hw">Braucht einen Rechner mit Grafikkarte. Den kaufen Sie selbst oder über Ihren IT-Partner.</p>
-        <a class="btn btn-primary" href="#warteliste"><svg class="glocke" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>Warteliste beitreten</a>
+        <a class="btn btn-primary" href="#download">Kostenlos testen</a>
       </div>
     </div>
   </div>
@@ -353,42 +353,31 @@
   </div>
 </section>
 
-<!-- Warteliste -->
-<section id="warteliste" aria-labelledby="h-dl">
+<!-- Download -->
+<section id="download" aria-labelledby="h-dl">
   <div class="wrap">
-    <div class="dl rv" id="wlBox">
+    <div class="dl rv">
       <div class="eisberg mascot" data-eisberg aria-hidden="true"></div>
       <div>
-        <span class="early">Early Access</span>
-        <h2 id="h-dl">Auf die Liste – und früh testen</h2>
-        <p class="lead">Pinguva ist im Probelauf. Tragen Sie sich ein: Die ersten Firmen auf der Liste können Pinguva vor dem offiziellen Start testen.</p>
-        <form class="wl-form" id="wlForm" novalidate style="margin-top:26px">
-          <div class="field">
-            <label for="wl-mail">E-Mail</label>
-            <input type="email" id="wl-mail" name="email" required autocomplete="email" inputmode="email" placeholder="info@firma.ch">
-          </div>
-          <div class="field">
-            <label for="wl-firma">Firma <span>(optional)</span></label>
-            <input type="text" id="wl-firma" name="firma" autocomplete="organization" placeholder="Muster AG, Zürich">
-          </div>
-          <div class="field voll">
-            <label for="wl-branche">Branche <span>(optional)</span></label>
-            <select id="wl-branche" name="branche">
-              <option value="">Bitte wählen</option>
-              <option>Arztpraxis</option><option>Therapie und Physio</option><option>Coiffeur und Kosmetik</option>
-              <option>Garage und Werkstatt</option><option>Handwerk</option><option>Treuhand und Büro</option><option>Andere Branche</option>
-            </select>
-          </div>
-          <label class="check"><input type="checkbox" name="early_access" value="ja" id="wl-early" checked><span><b>Early Access:</b> Ich möchte Pinguva vor dem Start in meiner Firma testen.</span></label>
-          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button class="btn btn-primary" type="submit" id="wlButton"><svg class="glocke" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span>Warteliste beitreten</span></button>
-          <p class="wl-hint">Ihre Angaben verwenden wir nur, um Sie über Pinguva zu informieren. Die Anmeldung wird über den US-Dienst Formspree übermittelt. Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
-          <p class="wl-msg" id="wlMsg" role="status" aria-live="polite"></p>
-        </form>
-        <div class="wl-done" id="wlDone" hidden tabindex="-1">
-          <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23" fill="none" stroke="#22C29A" stroke-width="4"/><path d="M15 27l7 7 15-16" fill="none" stroke="#22C29A" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div><h3>Sie stehen auf der Warteliste.</h3><p class="muted" id="wlDoneText">Wir melden uns per E-Mail, sobald Pinguva bereitsteht.</p></div>
+        <span class="marke">Version 1.3.3</span>
+        <h2 id="h-dl">Pinguva jetzt testen</h2>
+        <p class="lead">Laden Sie Pinguva für Windows herunter und probieren Sie es in Ihrer Firma aus. Ihre Daten bleiben dabei auf Ihrem Rechner.</p>
+        <div class="dl-knoepfe">
+          <a class="btn btn-primary" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-Setup.exe" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+            Pinguva herunterladen (Windows)
+          </a>
+          <a class="portable-link" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-portable.exe" download>Portable-Version</a>
         </div>
+        <p class="dl-hinweis">Windows zeigt eventuell eine Warnung. Klicken Sie auf «Weitere Informationen» und dann auf «Trotzdem ausführen».</p>
+        <details class="pruef">
+          <summary>Prüfsummen (SHA-256)</summary>
+          <dl>
+            <dt>Setup</dt><dd><code>50ea7a73a31406b4170aa653b71e78eb3fb01fcef5d287b76599ca6579ac3465</code></dd>
+            <dt>Portable</dt><dd><code>dd96f2aa23ec018eeb49156ed82dfec55f031fe641230eae8856dd89087aa4f1</code></dd>
+          </dl>
+        </details>
+        <p class="dl-mehr">Windows 10 und 11, 64-Bit · <a href="download/">Anleitung Schritt für Schritt</a></p>
       </div>
     </div>
   </div>
@@ -402,9 +391,9 @@
       <details class="rv"><summary>Braucht Pinguva Internet?</summary><div class="ans">Die KI nicht – sie rechnet auf Ihrem Rechner. Für Anrufe von aussen braucht es einen Telefonanbieter.</div></details>
       <details class="rv"><summary>Welchen Rechner brauche ich?</summary><div class="ans">Für Basis einen normalen Windows-PC. Für Plus einen Rechner mit Grafikkarte.</div></details>
       <details class="rv"><summary>Macht Pinguva etwas ohne mein Team?</summary><div class="ans">Nein. E-Mails und Übergaben an andere Systeme brauchen immer eine Freigabe.</div></details>
-      <details class="rv"><summary>Ab wann kann ich Pinguva nutzen?</summary><div class="ans">Pinguva ist im Probelauf. Mit Early Access testen Sie es schon vor dem Start.</div></details>
+      <details class="rv"><summary>Ab wann kann ich Pinguva nutzen?</summary><div class="ans">Schon jetzt. Pinguva ist im Probelauf, die Testversion können Sie oben herunterladen.</div></details>
       <details class="rv"><summary>Kann ich ChatGPT, Claude oder Gemini nutzen?</summary><div class="ans">Ja, im KI-Chat – für allgemeine Fragen und Texte ohne Kundendaten. Alles andere bleibt lokal.</div></details>
-      <details class="rv"><summary>Was kostet Pinguva?</summary><div class="ans">Die Preise stehen noch nicht fest. Die Warteliste ist kostenlos.</div></details>
+      <details class="rv"><summary>Was kostet Pinguva?</summary><div class="ans">Die Preise stehen noch nicht fest. Die Testversion ist kostenlos.</div></details>
     </div>
   </div>
 </section>
