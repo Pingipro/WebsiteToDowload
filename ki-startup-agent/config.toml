@@ -1,0 +1,37 @@
+# Konfiguration des KI-Startup-Agenten.
+# Alles unter [business] MUSS ausgefüllt sein, bevor der Agent echte Produkte
+# verkauft (Impressumspflicht nach § 5 DDG). Fehlt etwas, baut er Produkte,
+# schaltet aber keinen Verkauf frei.
+
+[business]
+name = ""              # z. B. "Max Mustermann Digital"
+owner = ""             # vollständiger Name der verantwortlichen Person
+street = ""            # Straße + Hausnummer
+city = ""              # PLZ + Ort
+country = "Deutschland"
+email = ""             # Kontakt-E-Mail (Pflicht im Impressum)
+phone = ""             # optional
+vat_id = ""            # USt-IdNr., leer lassen wenn keine
+small_business = true  # Kleinunternehmerregelung § 19 UStG -> keine USt. ausweisen
+site_url = ""          # z. B. "https://mein-shop.pages.dev" (ohne / am Ende)
+brand = "Pixelwerk Digital"  # Shop-Name auf der Website
+
+[agent]
+enabled = true                  # false = Agent macht nichts (Not-Aus)
+model = "claude-opus-5-5"
+effort = "high"                 # low | medium | high | xhigh | max
+monthly_budget_usd = 30.0       # harte Obergrenze für API-Kosten pro Monat
+max_new_products_per_run = 1
+max_active_products = 40
+language = "de"                 # Sprache der Produkte und der Website
+# Produkte ohne Verkauf nach so vielen Tagen werden aus dem Shop genommen
+retire_after_days_without_sale = 60
+
+[shop]
+currency = "eur"
+min_price = 5
+max_price = 49
+# Verlangt beim Kauf die Zustimmung zu AGB inkl. Verzicht aufs Widerrufsrecht
+# bei digitalen Inhalten. Dafür muss in Stripe unter
+# Einstellungen -> Öffentliche Details die AGB-URL (<site_url>/agb/) stehen.
+require_tos_consent = true
