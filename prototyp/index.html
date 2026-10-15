@@ -6,7 +6,7 @@
 <title>Pinguva – Ihre KI. In Ihrem Haus.</title>
 <meta name="description" content="Pinguva geht für Ihre Firma ans Telefon, versteht Schweizerdeutsch, vergibt Termine und bereitet E-Mails vor. Die KI läuft lokal auf Ihrem eigenen Rechner.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0A0A0A">
+<meta name="theme-color" content="#0A0D11">
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -14,16 +14,16 @@
 @font-face { font-family: "Archivo"; src: url("fonts/archivo.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
 
 :root {
-  --bg: #0A0A0A;
-  --bg-2: #111111;
-  --card: #151515;
+  --bg: #0A0D11;
+  --bg-2: #10151B;
+  --card: #131A21;
   --line: rgba(255,255,255,.09);
   --line-2: rgba(255,255,255,.16);
   --ink: #F4F3EF;
   --ink-2: #B9B7B0;
   --ink-3: #75736D;
-  --akzent: #D97757;
-  --glow: rgba(217,119,87,.35);
+  --akzent: #58B0D8;
+  --glow: rgba(24,144,184,.38);
   --blau: #1580AA;
   --blau-2: #106B8F;
   --f: "Inter", system-ui, -apple-system, "Segoe UI Variable Display", "Segoe UI", Roboto, Arial, sans-serif;
@@ -36,6 +36,11 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1.0625rem/1.6 var(--f); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+/* Raue Körnung wie Film */
+body::after { content: ""; position: fixed; inset: -50%; z-index: 100; pointer-events: none; opacity: .14; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .8 0 0 0 0 .88 0 0 0 0 1 0 0 0 1.4 -.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: koernung 1s steps(4) infinite; }
+@keyframes koernung { 25% { transform: translate(-4%, 3%); } 50% { transform: translate(3%, -5%); } 75% { transform: translate(-2%, -2%); } }
 a { color: inherit; text-decoration: none; }
 img, svg { display: block; max-width: 100%; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--rand); }
@@ -60,7 +65,7 @@ p { margin: 0; }
 
 /* Navigation */
 .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
-.nav.voll { background: rgba(10,10,10,.72); backdrop-filter: saturate(160%) blur(16px); -webkit-backdrop-filter: saturate(160%) blur(16px); border-color: var(--line); }
+.nav.voll { background: rgba(10,13,17,.72); backdrop-filter: saturate(160%) blur(16px); -webkit-backdrop-filter: saturate(160%) blur(16px); border-color: var(--line); }
 .nav .wrap { display: flex; align-items: center; height: 72px; gap: 32px; }
 .marke { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -.02em; font-size: 1.125rem; }
 .marke img { width: 26px; height: 26px; border-radius: 7px; }
@@ -107,15 +112,15 @@ section { padding: clamp(96px, 14vw, 180px) 0; position: relative; }
 .manifest p span { color: var(--ink-3); transition: color .6s var(--ease); }
 .manifest p span.an { color: var(--ink); }
 
-/* Funktionen Raster */
-.raster { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 72px; background: var(--line); border: 1px solid var(--line); overflow: hidden; }
-.zelle { background: var(--bg); padding: 36px 32px 40px; min-height: 260px; display: flex; flex-direction: column; transition: background .4s; }
-.zelle:hover { background: var(--bg-2); }
-.zelle .ico { width: 40px; height: 40px; border: 1px solid var(--line-2); display: grid; place-items: center; margin-bottom: auto; color: var(--akzent); }
-.zelle h3 { margin-top: 48px; }
-.zelle p { margin-top: 10px; color: var(--ink-2); font-size: .975rem; }
-@media (max-width: 900px) { .raster { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .raster { grid-template-columns: 1fr; } .zelle { min-height: 0; } .zelle h3 { margin-top: 28px; } }
+/* Funktionen als grosse Zeilen */
+.fliste { margin-top: 72px; border-top: 1px solid var(--line); }
+.fzeile { display: grid; grid-template-columns: 72px 1.15fr 1fr; gap: 24px 32px; align-items: baseline; padding: 40px 0; border-bottom: 1px solid var(--line); }
+.fzeile .nr { font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; color: var(--akzent); }
+.fzeile h3 { font-size: clamp(2rem, 4.4vw, 3.5rem); font-weight: 600; letter-spacing: -.05em; line-height: 1.05; padding-bottom: .05em; background: linear-gradient(180deg, var(--ink) 30%, rgba(244,243,239,.35)); -webkit-background-clip: text; background-clip: text; color: transparent; transition: opacity .4s var(--ease); }
+.fzeile p { color: var(--ink-2); font-size: 1.05rem; max-width: 420px; }
+.fliste:hover .fzeile h3 { opacity: .45; }
+.fliste .fzeile:hover h3 { opacity: 1; }
+@media (max-width: 760px) { .fzeile { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; } }
 
 /* Gespräch / Demo */
 .split { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(40px, 6vw, 96px); align-items: center; }
@@ -127,7 +132,7 @@ section { padding: clamp(96px, 14vw, 180px) 0; position: relative; }
 .blasen { display: flex; flex-direction: column; gap: 12px; padding-top: 18px; min-height: 330px; }
 .blase { max-width: 84%; padding: 12px 16px; border-radius: 18px; font-size: .95rem; line-height: 1.45; opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
 .blase.da { opacity: 1; transform: none; }
-.blase.kunde { background: #222; border-bottom-left-radius: 6px; }
+.blase.kunde { background: #1E262E; border-bottom-left-radius: 6px; }
 .blase.pinguva { background: var(--ink); color: #0A0A0A; margin-left: auto; border-bottom-right-radius: 6px; }
 .blase.system { align-self: center; background: transparent; border: 1px dashed var(--line-2); color: var(--ink-2); font-family: var(--mono); font-size: .75rem; border-radius: 999px; }
 .liste { list-style: none; padding: 0; margin: 36px 0 0; display: grid; gap: 18px; }
@@ -152,7 +157,7 @@ section { padding: clamp(96px, 14vw, 180px) 0; position: relative; }
 .preise { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 72px; }
 @media (max-width: 800px) { .preise { grid-template-columns: 1fr; } }
 .preis { border: 1px solid var(--line); padding: 40px 36px; background: var(--bg-2); display: flex; flex-direction: column; }
-.preis.top { background: linear-gradient(180deg, #1B1714, var(--bg-2) 60%); border-color: rgba(217,119,87,.35); }
+.preis.top { background: linear-gradient(180deg, #0E1B22, var(--bg-2) 60%); border-color: rgba(88,176,216,.4); }
 .preis .mono { margin-bottom: 14px; }
 .preis h3 { font-size: 1.75rem; }
 .preis .unter { color: var(--ink-2); margin-top: 6px; }
@@ -259,37 +264,13 @@ footer .copy { grid-column: 1 / -1; padding-top: 28px; border-top: 1px solid var
       <h2>Eine Assistenz, die mitarbeitet.</h2>
       <p>Pinguva übernimmt die Arbeit, die Sie täglich vom Wesentlichen abhält, und fragt nach, wenn es zählt.</p>
     </div>
-    <div class="raster">
-      <div class="zelle rein">
-        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></div>
-        <h3>Telefon-KI</h3>
-        <p>Nimmt jeden Anruf an, auch wenn alle beschäftigt sind.</p>
-      </div>
-      <div class="zelle rein">
-        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h2m3-5v10m3-13v16m3-11v6m3-9v12m3-7h2"/></svg></div>
-        <h3>Schweizerdeutsch</h3>
-        <p>Versteht Mundart und antwortet so, wie Ihre Kundschaft redet.</p>
-      </div>
-      <div class="zelle rein">
-        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4m8-4v4"/></svg></div>
-        <h3>Termine</h3>
-        <p>Vergibt, verschiebt und bestätigt Termine direkt im Kalender.</p>
-      </div>
-      <div class="zelle rein">
-        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></svg></div>
-        <h3>E-Mail-Entwürfe</h3>
-        <p>Bereitet Antworten vor. Sie geben sie mit einem Klick frei.</p>
-      </div>
-      <div class="zelle rein">
-        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2zM8 7h6M8 11h6"/></svg></div>
-        <h3>Kennt Ihre Firma</h3>
-        <p>Antwortet aus Ihren Dokumenten, mit Beleg statt geraten.</p>
-      </div>
-      <div class="zelle rein">
-        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
-        <h3>Rollen und Protokoll</h3>
-        <p>Nichts geht raus ohne Freigabe. Jede Aktion wird protokolliert.</p>
-      </div>
+    <div class="fliste">
+      <div class="fzeile rein"><span class="nr">01</span><h3>Telefon-KI</h3><p>Nimmt jeden Anruf an, auch wenn alle beschäftigt sind.</p></div>
+      <div class="fzeile rein"><span class="nr">02</span><h3>Schweizerdeutsch</h3><p>Versteht Mundart und antwortet so, wie Ihre Kundschaft redet.</p></div>
+      <div class="fzeile rein"><span class="nr">03</span><h3>Termine</h3><p>Vergibt, verschiebt und bestätigt Termine direkt im Kalender.</p></div>
+      <div class="fzeile rein"><span class="nr">04</span><h3>E-Mail-Entwürfe</h3><p>Bereitet Antworten vor. Sie geben sie mit einem Klick frei.</p></div>
+      <div class="fzeile rein"><span class="nr">05</span><h3>Kennt Ihre Firma</h3><p>Antwortet aus Ihren Dokumenten, mit Beleg statt geraten.</p></div>
+      <div class="fzeile rein"><span class="nr">06</span><h3>Rollen und Protokoll</h3><p>Nichts geht raus ohne Freigabe. Jede Aktion wird protokolliert.</p></div>
     </div>
   </div>
 </section>
