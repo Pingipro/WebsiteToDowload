@@ -108,10 +108,10 @@ section { padding: clamp(96px, 14vw, 180px) 0; position: relative; }
 .manifest p span.an { color: var(--ink); }
 
 /* Funktionen Raster */
-.raster { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 72px; background: var(--line); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
+.raster { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 72px; background: var(--line); border: 1px solid var(--line); overflow: hidden; }
 .zelle { background: var(--bg); padding: 36px 32px 40px; min-height: 260px; display: flex; flex-direction: column; transition: background .4s; }
 .zelle:hover { background: var(--bg-2); }
-.zelle .ico { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line-2); display: grid; place-items: center; margin-bottom: auto; color: var(--akzent); }
+.zelle .ico { width: 40px; height: 40px; border: 1px solid var(--line-2); display: grid; place-items: center; margin-bottom: auto; color: var(--akzent); }
 .zelle h3 { margin-top: 48px; }
 .zelle p { margin-top: 10px; color: var(--ink-2); font-size: .975rem; }
 @media (max-width: 900px) { .raster { grid-template-columns: 1fr 1fr; } }
@@ -120,7 +120,7 @@ section { padding: clamp(96px, 14vw, 180px) 0; position: relative; }
 /* Gespräch / Demo */
 .split { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(40px, 6vw, 96px); align-items: center; }
 @media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
-.chat { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 22px; box-shadow: 0 40px 80px -40px rgba(0,0,0,.8); }
+.chat { background: var(--card); border: 1px solid var(--line); padding: 22px; box-shadow: 0 40px 80px -40px rgba(0,0,0,.8); }
 .chat-kopf { display: flex; align-items: center; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid var(--line); font-size: .875rem; color: var(--ink-2); }
 .punkt { width: 8px; height: 8px; border-radius: 50%; background: #3BD08F; box-shadow: 0 0 12px #3BD08F; }
 .chat-kopf .mono { margin-left: auto; letter-spacing: .06em; }
@@ -151,7 +151,7 @@ section { padding: clamp(96px, 14vw, 180px) 0; position: relative; }
 /* Pakete */
 .preise { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 72px; }
 @media (max-width: 800px) { .preise { grid-template-columns: 1fr; } }
-.preis { border: 1px solid var(--line); border-radius: 28px; padding: 40px 36px; background: var(--bg-2); display: flex; flex-direction: column; }
+.preis { border: 1px solid var(--line); padding: 40px 36px; background: var(--bg-2); display: flex; flex-direction: column; }
 .preis.top { background: linear-gradient(180deg, #1B1714, var(--bg-2) 60%); border-color: rgba(217,119,87,.35); }
 .preis .mono { margin-bottom: 14px; }
 .preis h3 { font-size: 1.75rem; }
