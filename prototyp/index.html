@@ -45,7 +45,7 @@ h1 { font-size: clamp(3rem, 6.4vw, 5.75rem); }
 h2 { font-size: clamp(2.4rem, 5vw, 4.5rem); }
 h3 { font-size: 1.35rem; letter-spacing: -.03em; line-height: 1.2; }
 p { margin: 0; }
-.etikett { font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-size: .875rem; letter-spacing: .02em; color: var(--blau); display: inline-block; }
+.etikett { font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-size: .875rem; letter-spacing: .02em; color: var(--ink-3); display: inline-block; }
 
 /* Knöpfe: eckig, Grossbuchstaben, schmal */
 .knopf { display: inline-flex; align-items: center; gap: 14px; height: 48px; padding: 0 18px; font-family: var(--f-knopf); font-stretch: 75%; font-weight: 500; font-size: 1.2rem; letter-spacing: .01em; text-transform: uppercase; white-space: nowrap; cursor: pointer; border: 1px solid transparent; transition: background .2s, color .2s, border-color .2s; }
@@ -60,7 +60,7 @@ p { margin: 0; }
 
 /* Chips */
 .chips { display: flex; flex-wrap: wrap; gap: 14px; }
-.chip { display: inline-flex; align-items: center; gap: 10px; height: 38px; padding: 0 16px; border: 1px solid var(--blau); color: var(--blau); font-family: var(--f-knopf); font-stretch: 75%; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .01em; white-space: nowrap; }
+.chip { display: inline-flex; align-items: center; gap: 10px; height: 38px; padding: 0 16px; border: 1px solid var(--ink); color: var(--ink); font-family: var(--f-knopf); font-stretch: 75%; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .01em; white-space: nowrap; }
 .chip svg { width: 16px; height: 16px; }
 
 /* Kopfleiste */
@@ -69,7 +69,7 @@ p { margin: 0; }
 .marke { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.25rem; letter-spacing: -.04em; }
 .marke img { width: 28px; height: 28px; }
 .menue { display: flex; gap: 26px; font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-size: 1.05rem; color: var(--ink-2); }
-.menue a:hover { color: var(--blau); }
+.menue a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
 .kopf-rechts { margin-left: auto; display: flex; align-items: center; gap: 20px; }
 .version { font-size: 1.6rem; letter-spacing: -.04em; color: var(--ink-2); font-weight: 400; }
 @media (max-width: 980px) { .menue { display: none; } }
@@ -95,12 +95,12 @@ p { margin: 0; }
 .seite { inset: 0; background: linear-gradient(160deg, #3B3F45 0%, #1C1E22 40%, #0F1013 100%); box-shadow: inset 1px 0 0 rgba(255,255,255,.12); }
 .front { top: 0; bottom: 0; width: 34%; left: 100%; transform-origin: left center; transform: rotateY(90deg);
   background-image: repeating-linear-gradient(90deg, transparent 0 18%, rgba(0,0,0,.75) 18% 24%), linear-gradient(180deg, #9A9EA4 0%, #5D6167 40%, #24272B 100%); background-size: 100% 62%, 100% 100%; background-position: 50% 8%, 0 0; background-repeat: no-repeat; }
-.front::after { content: ""; position: absolute; left: 50%; bottom: 10%; width: 22%; aspect-ratio: 1; margin-left: -11%; background: radial-gradient(circle, #6FB0FF 0 30%, #0D6EF0 45%, transparent 70%); border-radius: 50%; box-shadow: 0 0 22px #0D6EF0; animation: puls 3s ease-in-out infinite; }
+.front::after { content: ""; position: absolute; left: 50%; bottom: 10%; width: 22%; aspect-ratio: 1; margin-left: -11%; background: radial-gradient(circle, #fff 0 30%, #C9CBCF 45%, transparent 70%); border-radius: 50%; box-shadow: 0 0 18px rgba(255,255,255,.6); animation: puls 3s ease-in-out infinite; }
 .deckel { left: 0; right: 0; height: 34%; top: 0; transform-origin: top center; transform: rotateX(90deg); background: linear-gradient(90deg, #5A5E64, #2E3136); }
 .boden { position: absolute; left: 18%; right: 18%; bottom: 7%; height: 10%; background: radial-gradient(closest-side, rgba(0,0,0,.9), transparent); filter: blur(10px); }
 .buehne .etikett { position: absolute; left: 20px; top: 18px; color: #8C9096; }
 .buehne .status { position: absolute; left: 20px; bottom: 18px; right: 20px; display: flex; justify-content: space-between; font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-size: .95rem; color: #8C9096; }
-.buehne .status b { color: #6FB0FF; font-weight: 500; }
+.buehne .status b { color: #E9E9E6; font-weight: 500; }
 @keyframes drehen { 50% { transform: translate(-50%, -52%) rotateX(-8deg) rotateY(-28deg); } }
 @keyframes puls { 50% { opacity: .5; } }
 
@@ -116,7 +116,7 @@ section { position: relative; }
 .raster { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .zelle { padding: 32px 28px 40px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); min-height: 250px; display: flex; flex-direction: column; transition: background .25s; }
 .zelle:hover { background: var(--bg-2); }
-.zelle .nr { font-family: var(--f-knopf); font-stretch: 75%; color: var(--blau); font-size: 1rem; display: flex; justify-content: space-between; align-items: center; }
+.zelle .nr { font-family: var(--f-knopf); font-stretch: 75%; color: var(--ink-3); font-size: 1rem; display: flex; justify-content: space-between; align-items: center; }
 .zelle .nr svg { width: 22px; height: 22px; }
 .zelle h3 { margin-top: auto; padding-top: 56px; }
 .zelle p { margin-top: 10px; color: var(--ink-2); font-size: 1rem; }
@@ -128,28 +128,28 @@ section { position: relative; }
 @media (max-width: 900px) { .zweispaltig { grid-template-columns: 1fr; } }
 .schritte { list-style: none; padding: 0; margin: 40px 0 0; border-top: 1px solid var(--line); }
 .schritte li { display: grid; grid-template-columns: 56px 1fr; padding: 22px 0; border-bottom: 1px solid var(--line); }
-.schritte .nr { font-family: var(--f-knopf); font-stretch: 75%; color: var(--blau); font-size: 1.1rem; }
+.schritte .nr { font-family: var(--f-knopf); font-stretch: 75%; color: var(--ink-3); font-size: 1.1rem; }
 .schritte b { font-weight: 500; font-size: 1.2rem; letter-spacing: -.03em; display: block; }
 .schritte span span { color: var(--ink-2); }
 .anruf { background: var(--nacht); color: #E9E9E6; padding: 24px; }
 .anruf-kopf { display: flex; align-items: center; gap: 10px; padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,.12); font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-size: 1rem; color: #A7A9AD; }
 .anruf-kopf i { width: 8px; height: 8px; background: #3BD08F; box-shadow: 0 0 10px #3BD08F; }
-.anruf-kopf span { margin-left: auto; color: #6FB0FF; }
+.anruf-kopf span { margin-left: auto; color: #E9E9E6; }
 .blasen { display: flex; flex-direction: column; gap: 12px; padding-top: 20px; min-height: 360px; }
 .blase { max-width: 86%; padding: 14px 16px; font-size: .98rem; line-height: 1.45; opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
 .blase.da { opacity: 1; transform: none; }
 .blase small { display: block; font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-size: .8rem; letter-spacing: .03em; margin-bottom: 4px; opacity: .6; }
 .kunde { background: #1C1E22; }
-.pinguva { background: var(--blau); color: #fff; margin-left: auto; }
-.system { align-self: flex-start; border: 1px solid rgba(111,176,255,.5); color: #6FB0FF; font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-size: .95rem; padding: 8px 12px; }
+.pinguva { background: #E9E9E6; color: #111; margin-left: auto; }
+.system { align-self: flex-start; border: 1px solid rgba(255,255,255,.3); color: #E9E9E6; font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-size: .95rem; padding: 8px 12px; }
 
 /* Lokal */
 .lokal { background: var(--nacht); color: #E9E9E6; border-top: 0; overflow: hidden; }
 .lokal .kopf p { color: #A7A9AD; }
-.lokal .etikett { color: #6FB0FF; }
+.lokal .etikett { color: #8C9096; }
 .riesig { font-size: clamp(5rem, 19vw, 17rem); font-weight: 500; letter-spacing: -.08em; line-height: .85; margin: 0 0 40px -.04em; }
-.riesig span { color: #6FB0FF; }
-.lokal .chip { border-color: rgba(111,176,255,.6); color: #6FB0FF; }
+.riesig span { color: #5A5C60; }
+.lokal .chip { border-color: rgba(255,255,255,.4); color: #E9E9E6; }
 
 /* Anforderungen */
 .liste { margin: 0; border-top: 1px solid var(--line); }
@@ -169,7 +169,7 @@ section { position: relative; }
 .paket .klein { color: var(--ink-3); font-size: .9rem; }
 .paket ul { list-style: none; padding: 0; margin: 28px 0 32px; border-top: 1px solid var(--line); }
 .paket li { padding: 12px 0; border-bottom: 1px solid var(--line); display: flex; gap: 12px; }
-.paket li::before { content: "+"; color: var(--blau); font-family: var(--f-knopf); }
+.paket li::before { content: "+"; color: var(--ink-3); font-family: var(--f-knopf); }
 .paket .bedarf { font-size: .95rem; color: var(--ink-3); margin-bottom: 28px; }
 .paket .knopf { margin-top: auto; align-self: flex-start; }
 
@@ -178,20 +178,17 @@ section { position: relative; }
 details { border-bottom: 1px solid var(--line); }
 summary { list-style: none; cursor: pointer; padding: 26px 0; font-size: 1.35rem; letter-spacing: -.035em; font-weight: 500; display: flex; justify-content: space-between; gap: 24px; }
 summary::-webkit-details-marker { display: none; }
-summary::after { content: "+"; color: var(--blau); font-family: var(--f-knopf); font-weight: 400; font-size: 1.8rem; line-height: .8; transition: transform .25s var(--ease); }
+summary::after { content: "+"; color: var(--ink); font-family: var(--f-knopf); font-weight: 400; font-size: 1.8rem; line-height: .8; transition: transform .25s var(--ease); }
 details[open] summary::after { transform: rotate(45deg); }
 details p { padding: 0 0 26px; color: var(--ink-2); max-width: 720px; }
 
 /* Download */
-.download { background: var(--blau); color: #fff; border-top: 0; }
-.download .etikett { color: rgba(255,255,255,.75); }
+.download { background: var(--nacht); color: #fff; border-top: 0; }
+.download .etikett { color: #8C9096; }
 .download h2 { font-size: clamp(3rem, 8vw, 7rem); }
 .download .wrap > p { margin-top: 28px; font-size: 1.25rem; max-width: 600px; color: rgba(255,255,255,.88); }
 .dl-knoepfe { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 48px; }
-.weiss { background: #fff; color: var(--blau); }
-.weiss:hover { background: var(--nacht); color: #fff; }
-.weiss-linie { border-color: rgba(255,255,255,.8); color: #fff; }
-.weiss-linie:hover { background: #fff; color: var(--blau); }
+.download .linie:hover { color: #fff; }
 .dl-info { margin-top: 40px; display: grid; gap: 10px; font-size: .95rem; color: rgba(255,255,255,.85); max-width: 760px; }
 .dl-info a { text-decoration: underline; text-underline-offset: 3px; }
 .pruef { border: 0; }
@@ -204,10 +201,10 @@ details p { padding: 0 0 26px; color: var(--ink-2); max-width: 720px; }
 /* Fusszeile */
 footer { padding: 56px 0 64px; border-top: 1px solid var(--line); font-size: .95rem; color: var(--ink-2); }
 footer .wrap { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
-footer h4 { margin: 0 0 12px; font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-weight: 500; font-size: 1rem; color: var(--blau); }
+footer h4 { margin: 0 0 12px; font-family: var(--f-knopf); font-stretch: 75%; text-transform: uppercase; font-weight: 500; font-size: 1rem; color: var(--ink-3); }
 footer address { font-style: normal; line-height: 1.6; }
 footer nav { display: grid; gap: 6px; }
-footer a:hover { color: var(--blau); }
+footer a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 footer .copy { grid-column: 1 / -1; padding-top: 28px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: .85rem; display: flex; flex-wrap: wrap; gap: 8px 24px; }
 @media (max-width: 760px) { footer .wrap { grid-template-columns: 1fr; } }
 
@@ -416,9 +413,9 @@ footer .copy { grid-column: 1 / -1; padding-top: 28px; border-top: 1px solid var
     <h2 class="rein" style="margin-top:24px">Pinguva<br>jetzt testen.</h2>
     <p class="rein">Laden Sie Pinguva für Windows herunter und probieren Sie es in Ihrer Firma aus. Ihre Daten bleiben dabei auf Ihrem Rechner.</p>
     <div class="dl-knoepfe rein">
-      <a class="knopf gross weiss dl" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-Setup.exe" download>Herunterladen
+      <a class="knopf gross blau dl" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-Setup.exe" download>Herunterladen
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg></a>
-      <a class="knopf gross weiss-linie dl" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-portable.exe" download>Portable-Version</a>
+      <a class="knopf gross linie dl" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-portable.exe" download>Portable-Version</a>
     </div>
     <div class="dl-info rein">
       <p>Windows 10 und 11, 64-Bit · <a href="../download/">Anleitung Schritt für Schritt</a></p>
