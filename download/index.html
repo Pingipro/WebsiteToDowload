@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pinguva für Windows — Testversion 1.4.5</title>
 <meta name="description" content="Pinguva für Windows herunterladen und testen. Testversion 1.4.5 für Windows 10 und 11. Ihre Firmen- und Patientendaten bleiben auf Ihrem Rechner.">
-<meta name="theme-color" content="#FAF9F5">
+<meta name="theme-color" content="#0A0D11">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pinguva">
 <meta property="og:title" content="Pinguva für Windows — Testversion 1.4.5">
@@ -19,16 +19,16 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
-<link rel="stylesheet" href="../assets/style.css">
+<link rel="preload" href="../assets/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/basis.css">
 <link rel="stylesheet" href="../assets/download.css">
-<script src="../assets/eisberg.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 
-<header class="top"><div class="wrap nav">
-  <a class="brand" href="../"><img class="logo" src="../assets/logo-64.webp" alt="" width="64" height="64" decoding="async">Pinguva</a>
-  <a class="btn btn-ghost btn-small" href="../">Zur Startseite</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="../"><img src="../assets/logo-64.webp" alt="" width="26" height="26" decoding="async">Pinguva</a>
+  <a class="btn" href="../"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 12H5m0 0 6-6m-6 6 6 6"/></svg>Zur Startseite</a>
 </div></header>
 
 <main id="inhalt">
@@ -36,19 +36,19 @@
 <section class="kopf">
   <div class="wrap kopf-grid">
     <div>
-      <span class="test">Testversion</span>
+      <span class="mono">Testversion · Version 1.4.5</span>
       <h1>Pinguva für Windows — Testversion 1.4.5</h1>
       <p class="lead">Pinguva arbeitet mit Ihrer eigenen Datenbank, Ihrer Praxissoftware und Ihren Kalendern. Ihre Daten bleiben dabei auf Ihrem Rechner.</p>
       <div class="laden">
-        <a class="btn btn-primary" id="dlSetup" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-Setup.exe" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
-          Pinguva herunterladen (Windows, 180 MB)
+        <a class="btn btn-blau btn-gross" id="dlSetup" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-Setup.exe" download>
+          Herunterladen (Windows,&nbsp;180&nbsp;MB)
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
         </a>
         <a class="portable" id="dlPortable" href="https://github.com/Pingipro/pinguva-download/releases/latest/download/Pinguva-portable.exe" download>Ohne Installation starten (portable Version)</a>
       </div>
       <p class="nur-pc">Pinguva läuft auf einem Windows-Computer. Bitte öffnen Sie diese Seite am PC.</p>
     </div>
-    <div class="eisberg" data-eisberg aria-hidden="true"></div>
+    <div class="geraet" aria-hidden="true"><div class="box"></div></div>
   </div>
 </section>
 
@@ -85,7 +85,7 @@
       </ul>
     </div>
     <div class="karte schutz">
-      <h2><svg viewBox="0 0 24 24" fill="none" stroke="#22C29A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg>Ihre Daten bleiben bei Ihnen</h2>
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg>Ihre Daten bleiben bei Ihnen</h2>
       <p>Ihre Firmen- und Patientendaten bleiben auf Ihrem Rechner bzw. in Ihrem eigenen Netzwerk. Pinguva lädt keine Patientendaten in eine Cloud.</p>
     </div>
   </div>
