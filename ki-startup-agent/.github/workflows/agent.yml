@@ -1,0 +1,61 @@
+name: KI-Startup-Agent
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"   # alle 6 Stunden
+  workflow_dispatch:
+    inputs:
+      skip_new:
+        description: "Nur Verkäufe/Website aktualisieren, kein neues Produkt"
+        type: boolean
+        default: false
+
+concurrency:
+  group: agent
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Abhängigkeiten
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Agent ausführen
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: python -m agent.main ${{ inputs.skip_new && '--skip-new' || '' }}
+
+      - name: Zustand speichern
+        if: always()
+        run: |
+          git config user.name "ki-startup-agent"
+          git config user.email "agent@users.noreply.github.com"
+          git add data products
+          git diff --cached --quiet || git commit -m "Agent-Lauf $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push
+
+      - name: Website auf Cloudflare Pages veröffentlichen
+        if: always() && hashFiles('dist/index.html') != '' && env.CLOUDFLARE_API_TOKEN != ''
+        env:
+          CF_PROJECT: ${{ vars.CLOUDFLARE_PROJECT || 'ki-shop' }}
+        run: |
+          npx --yes wrangler@4 pages project create "$CF_PROJECT" --production-branch main 2>/dev/null || true
+          npx --yes wrangler@4 pages deploy dist --project-name "$CF_PROJECT" --branch main
