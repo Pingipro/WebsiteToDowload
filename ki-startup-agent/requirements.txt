@@ -1,0 +1,5 @@
+anthropic>=1.11,<2
+stripe>=16,<17
+pydantic>=2.7,<3
+markdown>=3.6,<4
+playwright>=1.48,<2
